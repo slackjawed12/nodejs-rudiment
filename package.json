@@ -1,0 +1,11 @@
+{
+    "name": "learn-express",
+    "version":"0.0.1",
+    "description":"익스프레스 첫걸음",
+    "main": "app.js",
+    "scripts":{
+        "start": "nodemon app"
+    },
+    "author": "slackjawed12",
+    "license": "MIT"
+}
