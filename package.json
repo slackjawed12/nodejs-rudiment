@@ -1,11 +1,13 @@
 {
-    "name": "learn-express",
-    "version":"0.0.1",
-    "description":"익스프레스 첫걸음",
-    "main": "app.js",
-    "scripts":{
-        "start": "nodemon app"
-    },
-    "author": "slackjawed12",
-    "license": "MIT"
+  "name": "nodejs-rudiment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
