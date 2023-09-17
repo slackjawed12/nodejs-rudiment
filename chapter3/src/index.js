@@ -1,6 +1,6 @@
 const { odd, even } = require("./var");
 const checkNumber = require("./func");
-
+const requireModule = require("./require");
 console.log(odd);
 console.log(even);
 function checkStringOddOrEven(str) {

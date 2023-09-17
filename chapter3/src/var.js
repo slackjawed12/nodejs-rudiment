@@ -8,4 +8,4 @@ module.exports = {
   even,
 };
 
-console.log(exports, module.exports);
+// console.log(exports, module.exports);
