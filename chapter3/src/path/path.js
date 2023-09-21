@@ -2,22 +2,24 @@ const path = require("path");
 
 const string = __filename;
 
-console.log("path.sep : ", path.sep);
-console.log("path.delimiter : ", path.delimiter);
+console.log("path.sep : ", path.sep); // 경로 구분자
+console.log("path.delimiter : ", path.delimiter); // 환경 변수 구분자
 console.log("----------------------------------");
 console.log("path.dirname() : ", path.dirname(string));
-console.log("path.extname() : ", path.extname(string));
-console.log("path.basename() : ", path.basename(string));
+console.log("path.extname() : ", path.extname(string)); // 파일 확장자
+// basename
+console.log("path.basename() : ", path.basename(string)); // 확장자 포함한 파일 이름
 console.log(
   "path.basename - extname : ",
-  path.basename(string, path.extname(string))
+  path.basename(string, path.extname(string)) // 두번째 인수로 확장자 넣으면 파일 이름만 표시
 );
+
 console.log("----------------------------------");
-console.log("path.parse() : ", path.parse(string));
+console.log("path.parse() : ", path.parse(string)); // root, dir, base, ext로 경로 파싱
 console.log(
   "path.format() : ",
   path.format({
-    dir: "C:\\users\\slackjawed12",
+    dir: "/users/slackjawed12",
     name: "path",
     ext: ".js",
   })
