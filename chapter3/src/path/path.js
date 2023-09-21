@@ -45,3 +45,8 @@ console.log(
   "path.resolve() : ",
   path.resolve(__dirname, "..", "users", ".", "/slackjawed12")
 ); // resolve : '/'를 만나면 절대경로로 처리해서 앞의 경로를 무시한다
+
+console.log("path.posix.sep : ", path.posix.sep);
+console.log("path.posix.join : ", path.posix.join(__dirname, "/test"));
+console.log("path.win32.sep : ", path.win32.sep);
+console.log("path.win32.join : ", path.win32.join(__dirname, "/test"));
