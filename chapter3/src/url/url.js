@@ -1,6 +1,6 @@
 const url = require("url");
 
-const { URL } = url; // URL은 노드 내장 객체이므로 require 없이 사용할 수 있다.
+const { URL } = url;
 
 const myURL = new URL(
   "http://www.gilbut.co.kr/book/bookList.aspx?sercate1=001001000#anchor"
