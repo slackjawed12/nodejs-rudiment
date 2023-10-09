@@ -38,16 +38,15 @@ app.use((req, res, next) => {
   next(); // 다음 미들웨어로
 });
 
-app.get(
-  "/",
-  (req, res, next) => {
-    console.log("only GET /");
-    next();
-  },
-  (req, res) => {
-    throw new Error("error test");
-  }
-);
+app.get("/cookie", (req, res, next) => {
+  res.cookie("name", "myname", {
+    expires: new Date(Date.now() + 90000000),
+    httpOnly: true,
+    secure: true,
+    signed: true,
+  });
+  return res.json({});
+});
 
 app.use((err, req, res, next) => {
   console.error(err);
