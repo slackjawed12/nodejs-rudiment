@@ -1,6 +1,6 @@
 {
-  "name": "@nodejs-rudiment/chapter5",
-  "version": "1.0.0",
+  "name": "nodejs-rudiment-chapter5",
+  "version": "1.0.1",
   "description": "package manager practice",
   "main": "index.js",
   "scripts": {
