@@ -13,6 +13,7 @@
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "morgan": "^1.10.0",
+    "patch-package": "^8.0.0",
     "ts-node": "^10.9.1"
   },
   "devDependencies": {
