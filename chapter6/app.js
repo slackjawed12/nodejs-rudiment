@@ -46,6 +46,7 @@ app.get("/cookie", (req, res, next) => {
     secure: true,
     signed: true,
   });
+  res.clearCookie("good", { httpOnly: true, secure: true });
   return res.json({});
 });
 
