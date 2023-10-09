@@ -39,6 +39,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/cookie", (req, res, next) => {
+  console.log(req.signedCookies);
   res.cookie("name", "myname", {
     expires: new Date(Date.now() + 90000000),
     httpOnly: true,
