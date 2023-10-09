@@ -21,9 +21,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(
   session({
-    resave: false,
-    saveUninitialized: false,
-    secret: process.env.COOKIE_SECRET,
+    resave: false, // 요청 시 세션 수정사항 없어도 세션을 다시 저장할지 여부
+    saveUninitialized: false, // 세션에 저장할 내역이 없어도 처음부터 세션을 생성할지 여부
+    secret: process.env.COOKIE_SECRET, // 세션쿠키 서명에 사용될 비밀키
+    // 세션쿠키 설정
     cookie: {
       httpOnly: true,
       secure: false,
@@ -47,6 +48,13 @@ app.get("/cookie", (req, res, next) => {
     signed: true,
   });
   res.clearCookie("good", { httpOnly: true, secure: true });
+  return res.json({});
+});
+
+app.get("/session", (req, res, next) => {
+  req.session.name = "slackjawed";
+  // console.log(req.sessionID);
+  req.session.destroy();
   return res.json({});
 });
 
