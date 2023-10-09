@@ -34,3 +34,5 @@ if (cluster.isMaster) {
 
   console.log(`${process.pid}번 워커 실행`);
 }
+// 클러스터링 장점 : 예상하지 못한 에러로 한 번에 서버가 종료되는 것을 방지할 수 있음
+// pm2 모듈을 통해 cluster 기능 사용할 수 있음
