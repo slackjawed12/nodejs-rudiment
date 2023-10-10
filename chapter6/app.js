@@ -63,6 +63,17 @@ app.use((err, req, res, next) => {
   res.status(500).send(err.message);
 });
 
+app.use(
+  "/locals",
+  (req, res, next) => {
+    res.locals.data = "삽입된 로컬데이터";
+    next();
+  },
+  (req, res, next) => {
+    res.json(res.locals.data);
+  }
+);
+
 app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트에서 대기 중");
 });
