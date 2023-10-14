@@ -11,6 +11,7 @@ import fs from "fs";
 import indexRouter from "./routes/index.js";
 import userRouter from "./routes/user.js";
 import nextRouter from "./routes/next.js";
+import pugRouter from "./routes/pug.js";
 
 try {
   fs.readdirSync("uploads");
@@ -25,6 +26,10 @@ const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const __filename = fileURLToPath(import.meta.url);
 
 app.set("port", process.env.PORT || 3000);
+// 템플릿 파일 위치 폴더 지정 - res.render 메서드의 기준 path가 됨
+app.set("views", path.join(__dirname, "views"));
+// 템플릿 엔진 설정
+app.set("view engine", "pug");
 
 app.use((req, res, next) => {
   if (process.env.NODE_ENV === "production") {
@@ -137,6 +142,7 @@ app.post("/upload/none", upload.none(), (req, res) => {
 app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/next", nextRouter);
+app.use("/pug", pugRouter);
 
 app.use((req, res, next) => {
   res.status(404).send("Not Found");
