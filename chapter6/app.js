@@ -8,7 +8,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import multer from "multer";
 import fs from "fs";
-
+import indexRouter from "./routes";
+import userRouter from "./routes/user";
 try {
   fs.readdirSync("uploads");
 } catch (error) {
@@ -87,11 +88,6 @@ app.get("/session", (req, res, next) => {
   return res.json({});
 });
 
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).send(err.message);
-});
-
 app.use(
   "/locals",
   (req, res, next) => {
@@ -134,6 +130,18 @@ app.post(
 app.post("/upload/none", upload.none(), (req, res) => {
   console.log(req.body);
   res.send("ok");
+});
+
+app.use("/", indexRouter);
+app.use("/", userRouter);
+
+app.use((req, res, next) => {
+  res.status(404).send("Not Found");
+});
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).send(err.message);
 });
 
 app.listen(app.get("port"), () => {
