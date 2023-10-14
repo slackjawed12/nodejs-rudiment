@@ -2,7 +2,8 @@ import express from "express";
 const router = express.Router();
 
 router.get("/", (req, res) => {
+  console.log("user router called");
   res.send("Hello, User");
 });
 
-module.exports = router;
+export default router;

@@ -8,8 +8,10 @@ import path from "path";
 import { fileURLToPath } from "url";
 import multer from "multer";
 import fs from "fs";
-import indexRouter from "./routes";
-import userRouter from "./routes/user";
+import indexRouter from "./routes/index.js";
+import userRouter from "./routes/user.js";
+import nextRouter from "./routes/next.js";
+
 try {
   fs.readdirSync("uploads");
 } catch (error) {
@@ -133,7 +135,8 @@ app.post("/upload/none", upload.none(), (req, res) => {
 });
 
 app.use("/", indexRouter);
-app.use("/", userRouter);
+app.use("/user", userRouter);
+app.use("/next", nextRouter);
 
 app.use((req, res, next) => {
   res.status(404).send("Not Found");
