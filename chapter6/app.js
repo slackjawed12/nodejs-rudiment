@@ -12,6 +12,7 @@ import indexRouter from "./routes/index.js";
 import userRouter from "./routes/user.js";
 import nextRouter from "./routes/next.js";
 import pugRouter from "./routes/pug.js";
+import nunjucks from "nunjucks";
 
 try {
   fs.readdirSync("uploads");
@@ -29,7 +30,11 @@ app.set("port", process.env.PORT || 3000);
 // 템플릿 파일 위치 폴더 지정 - res.render 메서드의 기준 path가 됨
 app.set("views", path.join(__dirname, "views"));
 // 템플릿 엔진 설정
-app.set("view engine", "pug");
+app.set("view engine", "html");
+nunjucks.configure("views", {
+  express: app,
+  watch: true,
+});
 
 app.use((req, res, next) => {
   if (process.env.NODE_ENV === "production") {
