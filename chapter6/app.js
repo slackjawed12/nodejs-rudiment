@@ -6,6 +6,15 @@ import dotenv from "dotenv";
 import path from "path";
 // ES module 사용 목적으로 "type" : module 사용 시 __dirname, __filename 사용 불가
 import { fileURLToPath } from "url";
+import multer from "multer";
+import fs from "fs";
+
+try {
+  fs.readdirSync("uploads");
+} catch (error) {
+  console.log("uploads 폴더가 없어 uploads 폴더를 생성합니다.");
+  fs.mkdirSync("uploads");
+}
 dotenv.config();
 const app = express();
 // import.meta.url 사용
@@ -39,6 +48,19 @@ app.use(
     name: "session-cookie",
   })
 );
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req, file, done) {
+      done(null, "uploads/");
+    },
+    filename(req, file, done) {
+      const ext = path.extname(file.originalname);
+      done(null, path.basename(file.originalname, ext) + Date.now() + ext);
+    },
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 },
+});
 
 // 인자 : 모든 요청에 실행되는 미들웨어
 app.use((req, res, next) => {
@@ -80,6 +102,39 @@ app.use(
     res.json(res.locals.data);
   }
 );
+
+app.get("/upload", (req, res, next) => {
+  try {
+    res.sendFile(path.join(`${__dirname}/public`, "multipart.html"));
+  } catch (e) {
+    next(e);
+  }
+});
+
+app.post("/upload", upload.single("image"), (req, res) => {
+  console.log(req.file);
+  console.log(req.body);
+  res.send("ok");
+});
+app.post("/upload/array", upload.array("images"), (req, res) => {
+  console.log(req.files);
+  console.log(req.body);
+  res.send("ok");
+});
+
+app.post(
+  "/upload/fields",
+  upload.fields([{ name: "image1" }, { name: "image2" }]),
+  (req, res) => {
+    console.log(req.files);
+    console.log(req.body);
+    res.send("ok");
+  }
+);
+app.post("/upload/none", upload.none(), (req, res) => {
+  console.log(req.body);
+  res.send("ok");
+});
 
 app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트에서 대기 중");
