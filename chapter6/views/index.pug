@@ -5,6 +5,7 @@ html
     title= title
     link(rel='stylesheet', href='views/style.css')
   body 
+    include header
     #login-button 
     .post-image
     span#highlight
@@ -25,6 +26,23 @@ html
     p #{node}와 #{js}
     p= '<string>이스케이프</strong>'
     p!= '<strong>이스케이프 하지 않음</strong>'
+    //- if, else if, else
+    if isLoggedIn 
+      div 로그인 되었습니다 
+    else 
+      div 로그인이 필요합니다.
+    //- case when
+    case fruit
+      when 'apple'
+        p 사과입니다.
+      when 'banana'
+        p 바나나입니다.
+      when 'orange'
+        p 오렌지입니다.
+      default
+        p 과일이 아닙니다.
+    //- include : 다른 pug, html 파일을 넣음 - header, footer 등 공통 컴포넌트 사용
+    include footer
 
 style.
   h1 {
