@@ -12,6 +12,7 @@ import indexRouter from "./routes/index.js";
 import userRouter from "./routes/user.js";
 import nextRouter from "./routes/next.js";
 import pugRouter from "./routes/pug.js";
+import njkRouter from "./routes/nunjucks.js";
 import nunjucks from "nunjucks";
 
 try {
@@ -33,6 +34,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "html");
 nunjucks.configure("views", {
   express: app,
+  // html 변경 시 다시 렌더링
   watch: true,
 });
 
@@ -148,6 +150,7 @@ app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/next", nextRouter);
 app.use("/pug", pugRouter);
+app.use("/njk", njkRouter);
 
 app.use((req, res, next) => {
   res.status(404).send("Not Found");

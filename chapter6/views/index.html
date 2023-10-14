@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<head> </head>
+<body>
+  <h1>{{ title }}</h1>
+  <p>Welcome to {{ title }}</p>
+  <button class="{{ title }}" type="sublit">전송</button>
+  <input placeholder="{{ title }} 연습" />
+  {% set node = 'Node.js' %} {% set js = 'Javascript' %}
+  <p>{{ node }}와 {{ js }}</p>
+  <p>{{'<strong>이스케이프</strong>'}}</p>
+  <p>{{'<strong>이스케이프 하지 않음</strong>' | safe}}</p>
+</body>
