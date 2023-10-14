@@ -150,7 +150,7 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).send(err.message);
+  res.status(500).render("error", { message: err.message, error: err });
 });
 
 app.listen(app.get("port"), () => {
