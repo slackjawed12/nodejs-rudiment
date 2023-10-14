@@ -1,0 +1,36 @@
+doctype html
+html
+  head 
+    //- 변수 사용
+    title= title
+    link(rel='stylesheet', href='views/style.css')
+  body 
+    #login-button 
+    .post-image
+    span#highlight
+    p.hidden.full
+    p Welcome to Express
+    button(type='submit') 전송
+    p 
+      | pug에서 여러 줄 입력하기
+      | 파이프 문자를 활용한다 
+      br
+      | 중간에 태그 삽입
+    h1= comment
+    p Welcome to #{title}
+    button(class=title, type='submit') 변수를 받은 버튼
+    input(placeholder=title + ' 연습')
+    - const node = 'Node.js'
+    - const js = 'Javascript'
+    p #{node}와 #{js}
+    p= '<string>이스케이프</strong>'
+    p!= '<strong>이스케이프 하지 않음</strong>'
+
+style.
+  h1 {
+    font-size: 30px;
+  }
+
+script.
+  const messgae = 'Pug';
+  alert(message);
