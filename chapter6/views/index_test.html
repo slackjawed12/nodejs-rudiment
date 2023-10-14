@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<head> </head>
+<body>
+  <h1>{{ title }}</h1>
+  <p>Welcome to {{ title }}</p>
+  <button class="{{ title }}" type="sublit">전송</button>
+  <input placeholder="{{ title }} 연습" />
+  {% set node = 'Node.js' %} {% set js = 'Javascript' %}
+  <p>{{ node }}와 {{ js }}</p>
+  <p>{{'<strong>이스케이프</strong>'}}</p>
+  <p>{{'<strong>이스케이프 하지 않음</strong>' | safe}}</p>
+  <!-- nunjucks 반복문 사용 -->
+  <ul>
+    {% set fruits = ['사과', '배', '오렌지', '바나나', '복숭아'] %} {% for item
+    in fruits %}
+    <li>{{loop.index}}번째 {{item}}</li>
+    {% endfor %}
+  </ul>
+  <!-- nunjucks 조건문 사용 -->
+  {% if isLoggedIn %}
+  <div>로그인 되었습니다.</div>
+  {% else %}
+  <div>로그인이 필요합니다.</div>
+  {% endif %}
+  <!-- elif 분기처리 -->
+  {% set fruit = 'orange' %} {% if fruit === 'apple' %}
+  <p>사과입니다.</p>
+  {% if fruit === 'banana' %}
+  <p>바나나입니다.</p>
+  {% if fruit === 'orange' %}
+  <p>오렌지입니다.</p>
+  {% else %}
+  <p>과일 아닙니다.</p>
+  {% endif %}
+  <div>{{'로그인 상태' if isLoggedIn }}</div>
+  <div>{{'로그인 상태' if isLoggedIn else '로그아웃 상태'}}</div>
+</body>
