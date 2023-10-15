@@ -3,7 +3,11 @@ import express from "express";
 const router = express.Router();
 
 router.get("/", (req, res, next) => {
-  res.render("index_test", { title: "express" });
+  res.render("nunjucks/index", { title: "express" });
+});
+
+router.get("/error", (req, res, next) => {
+  next(new Error("this is nunjucks error"));
 });
 
 router.get("/include", (req, res, next) => {
