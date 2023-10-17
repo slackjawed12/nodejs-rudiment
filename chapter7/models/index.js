@@ -17,6 +17,7 @@ const sequelize = new Sequelize(
   config[env].username,
   config[env].password,
   {
+    host: "127.0.0.1",
     dialect: "mysql",
   }
 );
@@ -46,5 +47,5 @@ Object.keys(db).forEach((modelName) => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-
+console.log(db);
 export default db;
