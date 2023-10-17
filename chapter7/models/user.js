@@ -1,8 +1,9 @@
 import Sequelize from "sequelize";
 
 export class User extends Sequelize.Model {
-  static initiate(sequelize) {
-    User.init(
+  static initModel(sequelize) {
+    return sequelize.define(
+      "User",
       {
         name: {
           type: Sequelize.STRING(20),
@@ -38,7 +39,4 @@ export class User extends Sequelize.Model {
       }
     );
   }
-  static associatie(db) {}
 }
-
-export default User;
