@@ -2,6 +2,8 @@ import { config } from "../config/config.js";
 import { Sequelize } from "sequelize";
 import process from "process";
 import { User } from "./user.js";
+import { Comment } from "./comment.js";
+
 const env = process.env.NODE_ENV || "development";
 /**
  * initialize Sequelize object
@@ -22,9 +24,10 @@ const sequelize = new Sequelize(
  * by initModel -> define method of sequelize object
  */
 const user = User.initModel(sequelize);
-
+const comment = Comment.initModel(sequelize);
 const db = {};
 db[user.name] = user;
+db[comment.name] = comment;
 
 /**
  * associate parent - child tables

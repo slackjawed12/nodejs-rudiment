@@ -5,7 +5,6 @@ import nunjucks from "nunjucks";
 import db from "./models/index.js";
 import { fileURLToPath } from "url";
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
-console.log(db.sequelize);
 const app = express();
 app.set("port", process.env.PORT || 3001);
 app.set("view engine", "html");
