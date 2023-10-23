@@ -1,4 +1,4 @@
-import Sequelize from "sequelize";
+import { Sequelize } from "sequelize";
 
 export class Comment extends Sequelize.Model {
   static initModel(sequelize) {
@@ -23,11 +23,16 @@ export class Comment extends Sequelize.Model {
         paranoid: false,
         charset: "utf8",
         collate: "utf8_general_ci",
+        classMethods: {
+          associate: function (db) {
+            db.Comment.belongsTo(db.User, {
+              as: "User",
+              foreignKey: "commenter",
+              targetKey: "id",
+            });
+          },
+        },
       }
     );
-  }
-
-  static associate(db) {
-    db.Comment.belongsTo(db.User, { foreignKey: "commenter", targetKey: "id" });
   }
 }

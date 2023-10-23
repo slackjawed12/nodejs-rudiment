@@ -36,10 +36,16 @@ export class User extends Sequelize.Model {
         paranoid: false,
         charset: "utf8",
         collate: "utf8_general_ci",
+        classMethods: {
+          associate: function (db) {
+            db.User.hasMany(db.Comment, {
+              as: "Comment",
+              foreignKey: "commenter",
+              sourceKey: "id",
+            });
+          },
+        },
       }
     );
-  }
-  static associate(db) {
-    db.User.hasMany(db.Comment, { foreignKey: "commenter", sourceKey: "id" });
   }
 }
