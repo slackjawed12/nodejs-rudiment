@@ -23,21 +23,33 @@ const sequelize = new Sequelize(
  *  -- mapping domain models and db tables --
  * by initModel -> define method of sequelize object
  */
-const user = User.initModel(sequelize);
-const comment = Comment.initModel(sequelize);
+const _User = User.initModel(sequelize);
+const _Comment = Comment.initModel(sequelize);
+// _Comment.belongsTo(User, {
+//   as: "User",
+//   foreignKey: "commenter",
+//   targetKey: "id",
+// });
+// _User.hasMany(Comment, {
+//   as: "Comment",
+//   foreignKey: "commenter",
+//   // sourceKey: "id",
+// });
+
 const db = {};
-db[user.name] = user;
-db[comment.name] = comment;
+db[_User.name] = _User;
+db[_Comment.name] = _Comment;
 
 /**
  * associate parent - child tables
  */
 Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
+  if (db[modelName].options.classMethods.associate) {
+    db[modelName].options.classMethods.associate(db);
   }
 });
 
+console.log(db["Comment"].rawAttributes);
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 export default db;
