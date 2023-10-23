@@ -4,6 +4,7 @@ import morgan from "morgan";
 import nunjucks from "nunjucks";
 import db from "./models/index.js";
 import { fileURLToPath } from "url";
+import { Queries } from "./queries/query.js";
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const app = express();
 app.set("port", process.env.PORT || 3001);
@@ -43,3 +44,7 @@ app.use((err, req, res, next) => {
 app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트에서 대기 중");
 });
+
+(async () => {
+  await Queries();
+})();
