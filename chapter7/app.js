@@ -4,7 +4,10 @@ import morgan from "morgan";
 import nunjucks from "nunjucks";
 import db from "./models/index.js";
 import { fileURLToPath } from "url";
-import { Queries } from "./queries/query.js";
+import indexRouter from "./routes/index.js";
+import usersRouter from "./routes/users.js";
+import commentsRouter from "./routes/comments.js";
+
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const app = express();
 app.set("port", process.env.PORT || 3001);
@@ -28,6 +31,10 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use("/", indexRouter);
+app.use("/users", usersRouter);
+app.use("/comments", commentsRouter);
+
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
   error.status = 404;
@@ -44,7 +51,3 @@ app.use((err, req, res, next) => {
 app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트에서 대기 중");
 });
-
-(async () => {
-  await Queries();
-})();
