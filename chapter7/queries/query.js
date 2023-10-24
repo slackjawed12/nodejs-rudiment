@@ -33,4 +33,13 @@ export const Queries = async () => {
       },
     ],
   });
+
+  /**
+   * 연관관계 설정 시, get + 별칭 형식으로 메서드가 생긴다.
+   */
+  const comments = await user.getComment();
+
+  const [result, metadata] = await db.sequelize.query("SELECT * from comments");
+  console.log(result);
+  console.log(metadata);
 };
