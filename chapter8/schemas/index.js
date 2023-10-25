@@ -12,6 +12,7 @@ const connect = await mongoose
     console.log("몽고디비 연결 성공");
   })
   .catch((error) => {
+    console.log(error);
     console.log("몽고디비 연결 실패");
   });
 
