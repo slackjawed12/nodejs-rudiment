@@ -4,6 +4,9 @@ import morgan from "morgan";
 import nunjucks from "nunjucks";
 import connect from "./schemas/index.js";
 import { fileURLToPath } from "url";
+import indexRouter from "./routes/index.js";
+import usersRouter from "./routes/users.js";
+import commentsRouter from "./routes/comments.js";
 
 const app = express();
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
@@ -18,6 +21,10 @@ app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use("/", indexRouter);
+app.use("/users", usersRouter);
+app.use("/comments", commentsRouter);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
