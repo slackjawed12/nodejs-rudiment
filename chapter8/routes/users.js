@@ -1,6 +1,7 @@
 import express from "express";
 import User from "../schemas/user.js";
-
+import Comment from "../schemas/comment.js";
+import { Types } from "mongoose";
 const router = express.Router();
 
 router
@@ -33,10 +34,12 @@ router.get("/:id/comments", async (req, res, next) => {
   try {
     // commenter 필드 ref = User
     // users 컬렉션에서 사용자 document를 찾고, commenter 필드는 해당 user 다큐먼트가 된다.
-    const comments = await Comment.find({ commenter: req.params.id }).populate(
-      "commenter"
-    );
-    console.log(comments);
+    const comments = await Comment.find({
+      commenter: new Types.ObjectId(req.params.id),
+    }).populate("commenter");
+
+    console.log("comment", comments);
+
     res.json(comments);
   } catch (err) {
     console.error(err);

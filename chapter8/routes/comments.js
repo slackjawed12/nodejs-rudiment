@@ -1,5 +1,6 @@
 import express from "express";
-
+import Comment from "../schemas/comment.js";
+import { Types } from "mongoose";
 const router = express.Router();
 
 router.post("/", async (req, res, next) => {
@@ -22,9 +23,9 @@ router
   .route("/:id")
   .patch(async (req, res, next) => {
     try {
-      const result = await Comment.update(
+      const result = await Comment.updateOne(
         {
-          _id: req.params.id,
+          _id: new Types.ObjectId(req.params.id),
         },
         {
           comment: req.body.comment,
@@ -38,7 +39,9 @@ router
   })
   .delete(async (req, res, next) => {
     try {
-      const result = await Comment.remove({ _id: req.params.id });
+      const result = await Comment.findOneAndRemove({
+        _id: new Types.ObjectId(req.params.id),
+      });
       res.json(result);
     } catch (err) {
       console.error(err);

@@ -8,7 +8,6 @@ const connect = await mongoose
     useNewUrlParser: true,
   })
   .then((obj) => {
-    console.log(obj);
     console.log("몽고디비 연결 성공");
   })
   .catch((error) => {

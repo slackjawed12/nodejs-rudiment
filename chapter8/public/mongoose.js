@@ -45,10 +45,10 @@ async function getComment(id) {
     comments.map(function (comment) {
       const row = document.createElement("tr");
       let td = document.createElement("td");
-      td.textContent = comment.id;
+      td.textContent = comment._id;
       row.appendChild(td);
       td = document.createElement("td");
-      td.textContent = comment.User.name;
+      td.textContent = comment.commenter.name;
       row.appendChild(td);
       td = document.createElement("td");
       td.textContent = comment.comment;
@@ -61,7 +61,9 @@ async function getComment(id) {
           return alert("내용을 반드시 입력하셔야 합니다.");
         }
         try {
-          await axios.patch(`/comments/${comment.id}`, { comment: newComment });
+          await axios.patch(`/comments/${comment._id}`, {
+            comment: newComment,
+          });
           getComment(id);
         } catch (err) {
           console.error(err);
@@ -71,7 +73,7 @@ async function getComment(id) {
       remove.textContent = "삭제";
       remove.addEventListener("click", async () => {
         try {
-          await axios.delete(`/comments/${comment.id}`);
+          await axios.delete(`/comments/${comment._id}`);
           getComment(id);
         } catch (err) {
           console.error(err);

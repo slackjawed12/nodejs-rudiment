@@ -6,7 +6,7 @@ const {
 } = Schema;
 
 const commnetSchema = new Schema({
-  commneter: {
+  commenter: {
     type: ObjectId,
     required: true,
     ref: "User",
