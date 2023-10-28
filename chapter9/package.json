@@ -1,0 +1,16 @@
+{
+  "name": "start-nodebird",
+  "version": "0.0.1",
+  "description": "노드버드 연습 프로젝트",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app"
+  },
+  "author": "slackjawed12",
+  "license": "MIT",
+  "dependencies": {
+    "mysql2": "^3.6.2",
+    "sequelize": "^6.33.0",
+    "sequelize-cli": "^6.6.1"
+  }
+}
