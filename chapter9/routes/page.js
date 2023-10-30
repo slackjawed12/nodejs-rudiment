@@ -1,5 +1,5 @@
 import express from "express";
-import { renderProfile, renderJoin, renderMain } from "../controllers/page";
+import { renderProfile, renderJoin, renderMain } from "../controllers/page.js";
 
 const router = express.Router();
 
@@ -11,8 +11,8 @@ router.use((req, res, next) => {
   next();
 });
 
+router.get("/", renderMain);
 router.get("/profile", renderProfile);
 router.get("/join", renderJoin);
-router.get("/", renderMain);
 
 export default router;

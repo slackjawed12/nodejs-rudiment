@@ -5,6 +5,8 @@ import path from "path";
 import session from "express-session";
 import nunjucks from "nunjucks";
 import dotenv from "dotenv";
+import { fileURLToPath } from "url";
+import pageRouter from "./routes/page.js";
 
 dotenv.config();
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
