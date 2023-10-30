@@ -8,10 +8,13 @@ import dotenv from "dotenv";
 import { fileURLToPath } from "url";
 import pageRouter from "./routes/page.js";
 import db from "./models/index.js";
+import passport from "passport";
+import passportConfig from "./passport/index.js";
 
 dotenv.config();
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const app = express();
+passportConfig();
 app.set("port", process.env.PORT || 8001);
 app.set("view engine", "html");
 nunjucks.configure("views", {
@@ -44,6 +47,8 @@ app.use(
     },
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/", pageRouter);
 
