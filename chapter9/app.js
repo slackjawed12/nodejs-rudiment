@@ -7,6 +7,7 @@ import nunjucks from "nunjucks";
 import dotenv from "dotenv";
 import { fileURLToPath } from "url";
 import pageRouter from "./routes/page.js";
+import db from "./models/index.js";
 
 dotenv.config();
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
@@ -17,6 +18,15 @@ nunjucks.configure("views", {
   express: app,
   watch: true,
 });
+
+db.sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log("데이터베이스 연결 성공");
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
