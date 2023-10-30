@@ -1,10 +1,11 @@
 import express from "express";
+import { isLoggedIn, isNotLoggedIn } from "../middlewares/index.js";
 import { renderProfile, renderJoin, renderMain } from "../controllers/page.js";
 
 const router = express.Router();
 
 router.use((req, res, next) => {
-  res.locals.user = null;
+  res.locals.user = req.user;
   res.locals.followerCount = 0;
   res.locals.followingCount = 0;
   res.locals.followingIdList = [];
@@ -12,7 +13,7 @@ router.use((req, res, next) => {
 });
 
 router.get("/", renderMain);
-router.get("/profile", renderProfile);
-router.get("/join", renderJoin);
+router.get("/profile", isLoggedIn, renderProfile);
+router.get("/join", isNotLoggedIn, renderJoin);
 
 export default router;
