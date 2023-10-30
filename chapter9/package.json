@@ -3,14 +3,28 @@
   "version": "0.0.1",
   "description": "노드버드 연습 프로젝트",
   "main": "app.js",
+  "type": "module",
   "scripts": {
     "start": "nodemon app"
   },
   "author": "slackjawed12",
   "license": "MIT",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
     "mysql2": "^3.6.2",
+    "nunjucks": "^3.2.4",
     "sequelize": "^6.33.0",
-    "sequelize-cli": "^6.6.1"
+    "sequelize-cli": "^6.6.1",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.20",
+    "@types/node": "^20.8.9",
+    "nodemon": "^3.0.1"
   }
 }
