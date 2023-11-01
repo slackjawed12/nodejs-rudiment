@@ -7,6 +7,7 @@ import nunjucks from "nunjucks";
 import dotenv from "dotenv";
 import { fileURLToPath } from "url";
 import pageRouter from "./routes/page.js";
+import authRouter from "./routes/auth.js";
 import db from "./models/index.js";
 import passport from "passport";
 import passportConfig from "./passport/index.js";
@@ -51,6 +52,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/", pageRouter);
+app.use("/auth", authRouter);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
