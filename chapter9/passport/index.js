@@ -1,6 +1,6 @@
 import passport from "passport";
 import local from "./localStrategy.js";
-import kakao from "./kakoStrategy.js";
+import kakao from "./kakaoStrategy.js";
 import User from "../models/user.js";
 
 const passportConfig = () => {
