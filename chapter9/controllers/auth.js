@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import passport from "passport";
-import User from "../models/user.js";
+import db from "../models/index.js";
+const { User } = db;
 
 export const join = async (req, res, next) => {
   const { email, nick, password } = req.body;
