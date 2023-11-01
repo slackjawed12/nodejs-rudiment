@@ -1,7 +1,8 @@
 import passport from "passport";
 import local from "./localStrategy.js";
 import kakao from "./kakaoStrategy.js";
-import User from "../models/user.js";
+import db from "../models/index.js";
+const { User } = db;
 
 const passportConfig = () => {
   // 로그인 시 실행된다. req.session 객체에 저장할 데이터를 결정
