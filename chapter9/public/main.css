@@ -105,6 +105,12 @@ textarea {
     width: 500px;
   }
 }
+#twit-from {
+  border-bottom: 1px solid silver;
+  padding: 10px;
+  background: lightcoral;
+  overflow: hidden;
+}
 #img-preview {
   max-width: 100%;
 }
