@@ -1,4 +1,4 @@
-import db from "../models";
+import db from "../models/index.js";
 const { User } = db;
 
 export const follow = async (req, res, next) => {
@@ -9,7 +9,7 @@ export const follow = async (req, res, next) => {
       },
     });
     if (user) {
-      await user.addFolloiwng(parseInt(req.params.id, 10));
+      await user.addFollowing(parseInt(req.params.id, 10));
       res.send("success");
     } else {
       res.status(404).send("no user");
