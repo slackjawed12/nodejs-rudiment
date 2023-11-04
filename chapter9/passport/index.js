@@ -13,7 +13,21 @@ const passportConfig = () => {
   // 매 요청마다 실행된다. passport.session 미들웨어가 호출
   // 첫번째 인수가 serializeUser가 저장했던 아이디
   passport.deserializeUser((id, done) => {
-    User.findOne({ where: { id } })
+    User.findOne({
+      where: { id },
+      include: [
+        {
+          model: User,
+          attributes: ["id", "nick"],
+          as: "Followers",
+        },
+        {
+          model: User,
+          attributes: ["id", "nick"],
+          as: "Followings",
+        },
+      ],
+    })
       .then((user) => done(null, user)) // req.user에 유저 정보 할당
       .catch((err) => done(err));
   });
