@@ -2,9 +2,21 @@
 <div class="timeline">
   <div class="followings half">
     <h2>팔로잉 목록</h2>
-    {% if user.Followings %} {%for following in user.Followings %}
-    <div>{{following.nick}}</div>
-    {% endfor %} {% endif %}
+    {% if user.Followings %}
+    <div class="following-list">
+      {%for following in user.Followings %}
+      <div class="following-user-single">
+        <div>{{following.nick}}</div>
+        <input
+          type="hidden"
+          value="{{following.id}}"
+          class="following-user-id"
+        />
+        <button class="cancel-follow">팔로우 취소</button>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
   </div>
   <div class="followers half">
     <h2>팔로워 목록</h2>
@@ -13,4 +25,28 @@
     {% endfor %} {% endif %}
   </div>
 </div>
+{% endblock %} {% block script %}
+<script>
+  document.querySelectorAll(".cancel-follow").forEach(function (tag) {
+    tag.addEventListener("click", function () {
+      const myId = document.querySelector("#my-id");
+      if (myId) {
+        const userId = tag.parentNode.querySelector(".following-user-id").value;
+        console.log("userId", userId);
+        if (userId !== myId.value) {
+          if (confirm("팔로잉 취소 하시겠습니까?")) {
+            axios
+              .delete(`/user/${userId}/follow`)
+              .then(() => {
+                location.reload();
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          }
+        }
+      }
+    });
+  });
+</script>
 {% endblock %}
