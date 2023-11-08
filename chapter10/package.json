@@ -1,0 +1,36 @@
+{
+  "name": "nodebird-api",
+  "version": "0.0.1",
+  "description": "노드버드 API 프로젝트",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon app"
+  },
+  "author": "slackjawed12",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.6.2",
+    "nunjucks": "^3.2.4",
+    "passport": "^0.6.0",
+    "passport-kakao": "^1.0.1",
+    "passport-local": "^1.0.0",
+    "sequelize": "^6.33.0",
+    "sequelize-cli": "^6.6.1",
+    "ts-node": "^10.9.1",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.20",
+    "@types/multer": "^1.4.9",
+    "@types/node": "^20.8.9",
+    "@types/passport-kakao": "^1.0.2",
+    "nodemon": "^3.0.1"
+  }
+}
