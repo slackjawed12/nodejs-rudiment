@@ -6,10 +6,11 @@ import morgan from "morgan";
 import session from "express-session";
 import nunjucks from "nunjucks";
 import dotenv from "dotenv";
-import authRouter from "./router/auth.js";
+import authRouter from "./routes/auth.js";
 import indexRouter from "./routes/index.js";
-import { sequelize } from "./models/index.js";
+import db from "./models/index.js";
 import passportConfig from "./passport/index.js";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 const app = express();
@@ -21,7 +22,7 @@ nunjucks.configure("views", {
   watch: true,
 });
 
-sequelize
+db.sequelize
   .sync({ force: false })
   .then(() => {
     console.log("데이터베이스 연결 성공");
@@ -31,6 +32,7 @@ sequelize
   });
 
 app.use(morgan("dev"));
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
