@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 /**
  * 라우터 접근 권한 제어 : 로그인한 상태만 필터링하는 미들웨어
  */
@@ -18,4 +19,24 @@ const isNotLoggedIn = (req, res, next) => {
   }
 };
 
+const verifyToken = (req, res, next) => {
+  try {
+    res.locals.decoded = jwt.verify(
+      req.headers.authorization,
+      process.env.JWT_SECRET
+    );
+    return next();
+  } catch (error) {
+    if (error.name === "TokenExpiredError") {
+      return res.status(419).json({
+        code: 419,
+        message: "토큰이 만료되었습니다.",
+      });
+    }
+    return res.status(401).json({
+      code: 401,
+      message: "유효하지 않은 토큰입니다.",
+    });
+  }
+};
 export { isLoggedIn, isNotLoggedIn };
