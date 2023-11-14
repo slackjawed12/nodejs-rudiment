@@ -8,6 +8,7 @@ import nunjucks from "nunjucks";
 import dotenv from "dotenv";
 import authRouter from "./routes/auth.js";
 import indexRouter from "./routes/index.js";
+import v1 from "./routes/v1.js";
 import db from "./models/index.js";
 import passportConfig from "./passport/index.js";
 import { fileURLToPath } from "url";
@@ -52,6 +53,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use("/v1", v1);
 app.use("/auth", authRouter);
 app.use("/", indexRouter);
 
