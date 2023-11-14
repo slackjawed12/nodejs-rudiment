@@ -39,4 +39,4 @@ const verifyToken = (req, res, next) => {
     });
   }
 };
-export { isLoggedIn, isNotLoggedIn };
+export { isLoggedIn, isNotLoggedIn, verifyToken };
