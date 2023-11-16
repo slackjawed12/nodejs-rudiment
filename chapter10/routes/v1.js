@@ -1,8 +1,11 @@
 import express from "express";
-import { verifyToken } from "../middlewares/index.js";
+import { deprecated, verifyToken } from "../middlewares/index.js";
 import { createToken, tokenTest } from "../controllers/v1.js";
 import { getMyPosts, getPostsByHashtag } from "../controllers/v1.js";
 const router = express.Router();
+
+// v1은 deprecated
+router.use(deprecated);
 
 router.post("/token", createToken);
 
