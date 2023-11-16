@@ -43,7 +43,7 @@ const verifyToken = (req, res, next) => {
 
 const apiLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 1,
+  max: 10,
   handler(req, res) {
     res.status(this.statusCode).json({
       code: this.statusCode,
