@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import rateLimit from "express-rate-limit";
 /**
  * 라우터 접근 권한 제어 : 로그인한 상태만 필터링하는 미들웨어
  */
@@ -39,4 +40,22 @@ const verifyToken = (req, res, next) => {
     });
   }
 };
-export { isLoggedIn, isNotLoggedIn, verifyToken };
+
+const apiLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 1,
+  handler(req, res) {
+    res.status(this.statusCode).json({
+      code: this.statusCode,
+      message: "1분에 한 번만 요청할 수 있습니다.",
+    });
+  },
+});
+
+const deprecated = (req, res) => {
+  res.status(410).json({
+    code: 410,
+    message: "새로운 버전이 나왔습니다. 새로운 버전을 사용하세요.",
+  });
+};
+export { isLoggedIn, isNotLoggedIn, verifyToken, apiLimiter, deprecated };
