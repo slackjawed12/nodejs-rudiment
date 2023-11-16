@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import db from "../models/index.js";
-const { User, Domain } = db;
+const { User, Domain, Post, Hashtag } = db;
 /**
  * 토큰을 발급한다.
  */
@@ -33,7 +33,7 @@ const createToken = async (req, res) => {
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1m",
+        expiresIn: "15m",
         issuer: "nodebird",
       }
     );
@@ -58,4 +58,49 @@ const tokenTest = (req, res) => {
   res.json(res.locals.decoded);
 };
 
-export { createToken, tokenTest };
+/**
+ * 유저 아이디로 게시글 조회
+ */
+const getMyPosts = (req, res) => {
+  Post.findAll({
+    where: {
+      userId: res.locals.decoded.id,
+    },
+  })
+    .then((posts) => {
+      console.log(posts);
+      res.json({
+        code: 200,
+        payload: posts,
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+      return res.status(500).json({
+        code: 500,
+        message: "서버 에러",
+      });
+    });
+};
+
+const getPostsByHashtag = async (req, res) => {
+  try {
+    const hashtag = await Hashtag.findOne({
+      where: { title: req.params.title },
+    });
+    if (!hashtag) {
+      return res.status(404).json({
+        code: 404,
+        message: "검색 결과가 없습니다.",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      code: 500,
+      message: "서버 에러",
+    });
+  }
+};
+
+export { createToken, tokenTest, getMyPosts, getPostsByHashtag };
