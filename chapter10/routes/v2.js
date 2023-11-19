@@ -8,6 +8,7 @@ import { createToken, tokenTest } from "../controllers/v2.js";
 import { getMyPosts, getPostsByHashtag } from "../controllers/v2.js";
 const router = express.Router();
 
+// router.use : 라우터 간의 공통 로직 적용 시
 router.use(corsWhenDomainMatches);
 
 router.post("/token", apiLimiter, createToken);
