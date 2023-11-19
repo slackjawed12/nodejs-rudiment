@@ -5,6 +5,11 @@ import { getMyPosts, getPostsByHashtag } from "../controllers/v2.js";
 import cors from "cors";
 const router = express.Router();
 
+router.use(
+  cors({
+    credentials: true,
+  })
+);
 router.post("/token", apiLimiter, createToken);
 
 router.get("/test", apiLimiter, verifyToken, tokenTest);
@@ -13,9 +18,5 @@ router.get("/posts/my", apiLimiter, verifyToken, getMyPosts);
 
 router.get("/posts/hashtag/:tite", apiLimiter, verifyToken, getPostsByHashtag);
 
-router.use(
-  cors({
-    credentials: true,
-  })
-);
+// router.use(corsWhenDomainMatches);
 export default router;
