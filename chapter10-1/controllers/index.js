@@ -88,4 +88,9 @@ const searchByHashtag = async (req, res, next) => {
     }
   }
 };
-export { test, request, getMyPosts, searchByHashtag };
+
+const renderMain = (req, res) => {
+  res.render("main", { key: process.env.CLIENT_SECRET });
+};
+
+export { test, request, getMyPosts, searchByHashtag, renderMain };
