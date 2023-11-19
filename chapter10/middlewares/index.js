@@ -1,5 +1,8 @@
 import jwt from "jsonwebtoken";
 import rateLimit from "express-rate-limit";
+import cors from "cors";
+import db from "../models/index.js";
+const { Domain } = db;
 /**
  * 라우터 접근 권한 제어 : 로그인한 상태만 필터링하는 미들웨어
  */
@@ -58,4 +61,33 @@ const deprecated = (req, res) => {
     message: "새로운 버전이 나왔습니다. 새로운 버전을 사용하세요.",
   });
 };
-export { isLoggedIn, isNotLoggedIn, verifyToken, apiLimiter, deprecated };
+
+/**
+ * Access-Control-Allow-Origin을 *로 설정하면서 생긴 문제
+ * - 클라이언트 비밀키를 통해 다른 도메인이 api 서버에 요청을 보낼 수 있다.
+ * - 발급 시 허용한 도메인이 db에 저장되어 있으므로, host 헤더와 비밀키가 모두 일치한 경우에만 cors 허용하도록 수정
+ */
+const corsWhenDomainMatches = async (req, res, next) => {
+  const domain = await Domain.findOne({
+    where: {
+      host: new URL(req.get("origin")).host,
+    },
+  });
+  if (domain) {
+    cors({
+      origin: req.get("origin"),
+      credentials: true,
+    })(req, res, next);
+  } else {
+    next();
+  }
+};
+
+export {
+  isLoggedIn,
+  isNotLoggedIn,
+  verifyToken,
+  apiLimiter,
+  deprecated,
+  corsWhenDomainMatches,
+};
