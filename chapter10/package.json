@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon app",
-    "test": "jest"
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest"
   },
   "author": "slackjawed12",
   "license": "MIT",
