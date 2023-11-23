@@ -1,7 +1,7 @@
-import express from "express";
-import { deprecated, verifyToken } from "../middlewares/index.js";
-import { createToken, tokenTest } from "../controllers/v1.js";
-import { getMyPosts, getPostsByHashtag } from "../controllers/v1.js";
+const express = require("express");
+const { deprecated, verifyToken } = require("../middlewares/index.js");
+const { createToken, tokenTest } = require("../controllers/v1.js");
+const { getMyPosts, getPostsByHashtag } = require("../controllers/v1.js");
 const router = express.Router();
 
 // v1은 deprecated
@@ -15,4 +15,4 @@ router.get("/posts/my", verifyToken, getMyPosts);
 
 router.get("/posts/hashtag/:tite", verifyToken, getPostsByHashtag);
 
-export default router;
+module.exports = router;

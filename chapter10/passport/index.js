@@ -1,7 +1,7 @@
-import passport from "passport";
-import local from "./localStrategy.js";
-import kakao from "./kakaoStrategy.js";
-import db from "../models/index.js";
+const passport = require("passport");
+const local = require("./localStrategy.js");
+const kakao = require("./kakaoStrategy.js");
+const db = require("../models/index.js");
 const { User } = db;
 
 const passportConfig = () => {
@@ -36,4 +36,4 @@ const passportConfig = () => {
   kakao();
 };
 
-export default passportConfig;
+module.exports = { passportConfig };

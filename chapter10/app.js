@@ -1,18 +1,17 @@
-import express from "express";
-import path from "path";
-import cookieParser from "cookie-parser";
-import passport from "passport";
-import morgan from "morgan";
-import session from "express-session";
-import nunjucks from "nunjucks";
-import dotenv from "dotenv";
-import authRouter from "./routes/auth.js";
-import indexRouter from "./routes/index.js";
-import v1 from "./routes/v1.js";
-import v2 from "./routes/v2.js";
-import db from "./models/index.js";
-import passportConfig from "./passport/index.js";
-import { fileURLToPath } from "url";
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const passport = require("passport");
+const morgan = require("morgan");
+const session = require("express-session");
+const nunjucks = require("nunjucks");
+const dotenv = require("dotenv");
+const authRouter = require("./routes/auth.js");
+const indexRouter = require("./routes/index.js");
+const v1 = require("./routes/v1.js");
+const v2 = require("./routes/v2.js");
+const db = require("./models/index.js");
+const { passportConfig } = require("./passport/index.js");
 
 dotenv.config();
 const app = express();
@@ -34,7 +33,6 @@ db.sequelize
   });
 
 app.use(morgan("dev"));
-const __dirname = fileURLToPath(new URL(".", import.meta.url));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

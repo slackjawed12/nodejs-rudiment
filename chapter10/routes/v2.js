@@ -1,11 +1,11 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   verifyToken,
   apiLimiter,
   corsWhenDomainMatches,
-} from "../middlewares/index.js";
-import { createToken, tokenTest } from "../controllers/v2.js";
-import { getMyPosts, getPostsByHashtag } from "../controllers/v2.js";
+} = require("../middlewares/index.js");
+const { createToken, tokenTest } = require("../controllers/v2.js");
+const { getMyPosts, getPostsByHashtag } = require("../controllers/v2.js");
 const router = express.Router();
 
 // router.use : 라우터 간의 공통 로직 적용 시
@@ -19,4 +19,4 @@ router.get("/posts/my", apiLimiter, verifyToken, getMyPosts);
 
 router.get("/posts/hashtag/:tite", apiLimiter, verifyToken, getPostsByHashtag);
 
-export default router;
+module.exports = router;

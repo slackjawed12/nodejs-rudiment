@@ -1,12 +1,12 @@
-import passport from "passport";
-import { Strategy } from "passport-kakao";
-import db from "../models/index.js";
-import dotenv from "dotenv";
+const passport = require("passport");
+const { Strategy } = require("passport-kakao");
+const db = require("../models/index.js");
+const dotenv = require("dotenv");
 const KakaoStrategy = Strategy;
 const { User } = db;
 
 dotenv.config();
-export default () => {
+module.exports = () => {
   passport.use(
     new KakaoStrategy(
       {

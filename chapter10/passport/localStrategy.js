@@ -1,14 +1,14 @@
-import passport from "passport";
-import { Strategy } from "passport-local";
-import bcrypt from "bcrypt";
-import db from "../models/index.js";
+const passport = require("passport");
+const { Strategy } = require("passport-local");
+const bcrypt = require("bcrypt");
+const db = require("../models/index.js");
 const { User } = db;
 
 const LocalStrategy = Strategy;
 /**
  * done 호출 이후에는 passport.authenticate 콜백함수에서 나머지 로직을 실행
  */
-export default () => {
+module.exports = () => {
   passport.use(
     new LocalStrategy(
       {

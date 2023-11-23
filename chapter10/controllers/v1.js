@@ -1,5 +1,5 @@
-import jwt from "jsonwebtoken";
-import db from "../models/index.js";
+const jwt = require("jsonwebtoken");
+const db = require("../models/index.js");
 const { User, Domain, Post, Hashtag } = db;
 /**
  * 토큰을 발급한다.
@@ -103,4 +103,4 @@ const getPostsByHashtag = async (req, res) => {
   }
 };
 
-export { createToken, tokenTest, getMyPosts, getPostsByHashtag };
+module.exports = { createToken, tokenTest, getMyPosts, getPostsByHashtag };
