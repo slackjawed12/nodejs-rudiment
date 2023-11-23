@@ -1,10 +1,10 @@
-import config from "../config/config.js";
-import { Sequelize } from "sequelize";
-import process from "process";
-import { User } from "./user.js";
-import { Post } from "./post.js";
-import { Hashtag } from "./hashtag.js";
-import { Domain } from "./domain.js";
+const config = require("../config/config.js");
+const Sequelize = require("sequelize");
+const process = require("process");
+const User = require("./user.js");
+const Post = require("./post.js");
+const Hashtag = require("./hashtag.js");
+const Domain = require("./domain.js");
 
 const env = process.env.NODE_ENV || "development";
 
@@ -20,7 +20,6 @@ const sequelize = new Sequelize(
     dialect: "mysql",
   }
 );
-
 /**
  *  -- mapping domain models and db tables --
  */
@@ -29,20 +28,21 @@ const _Post = Post.initModel(sequelize);
 const _Hashtag = Hashtag.initModel(sequelize);
 const _Domain = Domain.initModel(sequelize);
 const db = {};
-db[_User.name] = _User;
-db[_Post.name] = _Post;
-db[_Hashtag.name] = _Hashtag;
-db[_Domain.name] = _Domain;
+db.User = User;
+db.Post = Post;
+db.Hashtag = Hashtag;
+db.Domain = Domain;
 
 /**
  * associate parent - child tables
  */
 Object.keys(db).forEach((modelName) => {
-  if (db[modelName].options.classMethods.associate) {
-    db[modelName].options.classMethods.associate(db);
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
   }
 });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-export default db;
+
+module.exports = db;

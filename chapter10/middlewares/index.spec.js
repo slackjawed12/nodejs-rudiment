@@ -1,6 +1,4 @@
-import { describe } from "node:test";
-import { isLoggedIn, isNotLoggedIn } from "./index.js";
-import { jest } from "@jest/globals";
+const { isLoggedIn, isNotLoggedIn } = require("./index.js");
 
 describe("isLoggedIn", () => {
   const res = {

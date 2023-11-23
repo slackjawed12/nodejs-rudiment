@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
-import rateLimit from "express-rate-limit";
-import cors from "cors";
-import db from "../models/index.js";
+const jwt = require("jsonwebtoken");
+const rateLimit = require("express-rate-limit");
+const cors = require("cors");
+const db = require("../models/index.js");
 const { Domain } = db;
 /**
  * 라우터 접근 권한 제어 : 로그인한 상태만 필터링하는 미들웨어
@@ -83,7 +83,7 @@ const corsWhenDomainMatches = async (req, res, next) => {
   }
 };
 
-export {
+module.exports = {
   isLoggedIn,
   isNotLoggedIn,
   verifyToken,

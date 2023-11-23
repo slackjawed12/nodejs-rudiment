@@ -1,6 +1,6 @@
-import { Sequelize } from "sequelize";
+const Sequelize = require("sequelize");
 
-export class Domain extends Sequelize.Model {
+class Domain extends Sequelize.Model {
   static initModel(sequelize) {
     return sequelize.define(
       "Domain",
@@ -35,3 +35,4 @@ export class Domain extends Sequelize.Model {
     );
   }
 }
+module.exports = Domain;

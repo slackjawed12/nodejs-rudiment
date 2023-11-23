@@ -1,6 +1,6 @@
-import Sequelize from "sequelize";
+const Sequelize = require("sequelize");
 
-export class Post extends Sequelize.Model {
+class Post extends Sequelize.Model {
   static initModel(sequelize) {
     return sequelize.define(
       "Post",
@@ -33,3 +33,5 @@ export class Post extends Sequelize.Model {
     );
   }
 }
+
+module.exports = Post;

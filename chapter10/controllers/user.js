@@ -1,7 +1,7 @@
-import db from "../models/index.js";
+const db = require("../models/index.js");
 const { User } = db;
 
-export const follow = async (req, res, next) => {
+const follow = async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: {
@@ -20,7 +20,7 @@ export const follow = async (req, res, next) => {
   }
 };
 
-export const deleteFollow = async (req, res, next) => {
+const deleteFollow = async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: {
@@ -46,3 +46,5 @@ export const deleteFollow = async (req, res, next) => {
     next(error);
   }
 };
+
+module.exports = { follow, deleteFollow };

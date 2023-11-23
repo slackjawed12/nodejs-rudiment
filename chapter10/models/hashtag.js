@@ -1,6 +1,6 @@
-import Sequelize from "sequelize";
+const Sequelize = require("sequelize");
 
-export class Hashtag extends Sequelize.Model {
+class Hashtag extends Sequelize.Model {
   static initModel(sequelize) {
     return sequelize.define(
       "Hashtag",
@@ -29,3 +29,5 @@ export class Hashtag extends Sequelize.Model {
     );
   }
 }
+
+module.exports = Hashtag;

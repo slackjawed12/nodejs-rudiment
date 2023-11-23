@@ -1,6 +1,6 @@
-import Sequelize from "sequelize";
+const Sequelize = require("sequelize");
 
-export class User extends Sequelize.Model {
+class User extends Sequelize.Model {
   static initModel(sequelize) {
     return sequelize.define(
       "User",
@@ -57,5 +57,4 @@ export class User extends Sequelize.Model {
     );
   }
 }
-
-export default {};
+module.exports = User;

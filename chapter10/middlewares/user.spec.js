@@ -1,5 +1,6 @@
-import { follow } from "../controllers/user.js";
-import { jest } from "@jest/globals";
+jest.mock("../models/user");
+const { follow } = require("../controllers/user.js");
+const User = require("../models/user.js");
 describe("follow", () => {
   const req = {
     user: { id: 1 },
@@ -12,6 +13,11 @@ describe("follow", () => {
   const next = jest.fn();
 
   test("사용자를 찾아 팔로잉을 추가하고 success를 응답한다.", async () => {
+    User.findOne.mockReturnValue({
+      addFollowing(id) {
+        return Promise.resolve(true);
+      },
+    });
     await follow(req, res, next);
     expect(res.send).toBeCalledWith("success");
   });
