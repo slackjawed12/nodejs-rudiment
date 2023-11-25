@@ -2,9 +2,9 @@
   "name": "nodebird-api",
   "version": "0.0.1",
   "description": "노드버드 API 프로젝트",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon app",
+    "start": "nodemon server",
     "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
     "coverage": "jest --coverage"
   },
