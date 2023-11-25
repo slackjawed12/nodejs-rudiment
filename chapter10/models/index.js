@@ -1,41 +1,40 @@
-const config = require("../config/config.js");
+"use strict";
+
+const fs = require("fs");
+const path = require("path");
 const Sequelize = require("sequelize");
 const process = require("process");
-const User = require("./user.js");
-const Post = require("./post.js");
-const Hashtag = require("./hashtag.js");
-const Domain = require("./domain.js");
-
+const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
-
-/**
- * initialize Sequelize object
- */
-const sequelize = new Sequelize(
-  config[env].database,
-  config[env].username,
-  config[env].password,
-  {
-    host: "127.0.0.1",
-    dialect: "mysql",
-  }
-);
-/**
- *  -- mapping domain models and db tables --
- */
-const _User = User.initModel(sequelize);
-const _Post = Post.initModel(sequelize);
-const _Hashtag = Hashtag.initModel(sequelize);
-const _Domain = Domain.initModel(sequelize);
+const config = require("../config/config.js")[env];
 const db = {};
-db.User = User;
-db.Post = Post;
-db.Hashtag = Hashtag;
-db.Domain = Domain;
 
-/**
- * associate parent - child tables
- */
+let sequelize;
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else {
+  sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
+  );
+}
+fs.readdirSync(__dirname)
+  .filter((file) => {
+    return (
+      file.indexOf(".") !== 0 &&
+      file !== basename &&
+      file.slice(-3) === ".js" &&
+      !file.includes("test")
+    );
+  })
+  .forEach((file) => {
+    const model = require(path.join(__dirname, file));
+    db[model.name] = model;
+    model.initiate(sequelize);
+  });
+
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
