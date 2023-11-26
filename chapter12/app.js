@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const nunjucks = require("nunjucks");
 const dotenv = require("dotenv");
-
+const ColorHash = require("color-hash").default;
 dotenv.config();
 const webSocket = require("./socket");
 const indexRouter = require("./routes");
@@ -36,6 +36,16 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  if (!req.session.color) {
+    const colorHash = new ColorHash();
+    // 세션아이디를 HEX 형식 색상문자열로 변경시킨 후 session 객체에 저장
+    req.session.color = colorHash.hex(req.sessionID);
+    console.log(req.session.color, req.sessionID);
+  }
+  next();
+});
+
 app.use("/", indexRouter);
 
 app.use((req, res, next) => {
@@ -55,4 +65,4 @@ const server = app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트에서 대기 중");
 });
 
-webSocket(server);
+webSocket(server, app);
