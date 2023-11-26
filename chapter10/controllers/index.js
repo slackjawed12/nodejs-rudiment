@@ -4,6 +4,12 @@ const { User, Domain } = db;
 
 const renderLogin = async (req, res, next) => {
   try {
+    const { error } = req.query;
+    if (error) {
+      return res.render("error", {
+        message: error,
+      });
+    }
     const user = await User.findOne({
       where: { id: req.user?.id || null },
       include: {
