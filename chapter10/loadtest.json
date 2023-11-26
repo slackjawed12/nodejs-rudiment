@@ -1,0 +1,38 @@
+{
+  "config": {
+    "target": "http://localhost:8002",
+    "http": {
+      "timeout": 30
+    },
+    "phases": [
+      {
+        "duration": 30,
+        "arrivalRate": 20
+      }
+    ]
+  },
+  "scenarios": [
+    {
+      "flow": [
+        {
+          "get": {
+            "url": "/"
+          }
+        },
+        {
+          "post": {
+            "url": "/auth/login",
+            "json": {
+              "email": "slackjawed12@gmail.com",
+              "password": "1234"
+            },
+            "followRedirect": false
+          }
+        },
+        {
+          "get": { "url": "/hashtag?hastag=nodebird" }
+        }
+      ]
+    }
+  ]
+}
