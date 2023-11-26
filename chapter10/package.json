@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server",
-    "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
+    "test": "jest --watchAll --detectOpenHandles",
     "coverage": "jest --coverage"
   },
   "author": "slackjawed12",
@@ -40,6 +40,7 @@
     "@types/passport-kakao": "^1.0.2",
     "@types/supertest": "^2.0.16",
     "@types/uuid": "^9.0.7",
+    "artillery": "^2.0.0-38",
     "jest": "^29.7.0",
     "nodemon": "^3.0.1",
     "supertest": "^6.3.3"
