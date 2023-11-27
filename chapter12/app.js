@@ -20,6 +20,16 @@ app.set("view engine", "html"),
   });
 connect();
 
+const sessionMiddleware = session({
+  resave: false,
+  saveUninitialized: false,
+  secret: process.env.COOKIE_SECRET,
+  cookie: {
+    httpOnly: true,
+    secure: false,
+  },
+});
+
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
@@ -60,9 +70,10 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render("error");
 });
+app.use(sessionMiddleware);
 
 const server = app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트에서 대기 중");
 });
 
-webSocket(server, app);
+webSocket(server, app, sessionMiddleware);
