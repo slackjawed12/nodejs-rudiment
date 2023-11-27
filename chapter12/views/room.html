@@ -1,7 +1,7 @@
 {% extends 'layout.html' %} {% block content %}
 <fieldset>
   <legend>채팅방 생성</legend>
-  <from action="/room" method="post">
+  <form action="/room" method="post">
     <div>
       <input type="text" name="title" placeholder="방 제목" />
     </div>
@@ -24,6 +24,6 @@
     <div>
       <button type="submit">생성</button>
     </div>
-  </from>
+  </form>
 </fieldset>
 {% endblock %}
