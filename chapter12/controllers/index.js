@@ -1,5 +1,6 @@
 const Room = require("../schemas/room");
 const Chat = require("../schemas/chat");
+const { removeRoom: removeRoomService } = require("../services");
 
 exports.renderMain = async (req, res, next) => {
   try {
@@ -70,8 +71,7 @@ exports.enterRoom = async (req, res, next) => {
 exports.removeRoom = async (req, res, next) => {
   try {
     // 채팅방과 채팅 내역 삭제
-    await Room.remove({ _id: req.params.id });
-    await Chat.remove({ room: req.params.id });
+    await removeRoomService(req.params.id);
     res.send("ok");
   } catch (error) {
     console.error(error);
