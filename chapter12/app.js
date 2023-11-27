@@ -20,6 +20,7 @@ app.set("view engine", "html"),
   });
 connect();
 
+// app과 socket 간 session 미들웨어 공유하기 위해 변수로 분리
 const sessionMiddleware = session({
   resave: false,
   saveUninitialized: false,
@@ -51,7 +52,11 @@ app.use((req, res, next) => {
     const colorHash = new ColorHash();
     // 세션아이디를 HEX 형식 색상문자열로 변경시킨 후 session 객체에 저장
     req.session.color = colorHash.hex(req.sessionID);
-    console.log(req.session.color, req.sessionID);
+    console.log(
+      "set session color hash... : ",
+      req.session.color,
+      req.sessionID
+    );
   }
   next();
 });
