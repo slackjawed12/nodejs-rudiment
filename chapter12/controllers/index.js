@@ -55,6 +55,7 @@ exports.enterRoom = async (req, res, next) => {
     if (room.max <= rooms.get(req.params.id)?.size) {
       return res.redirect("/?error=허용 인원을 초과했습니다.");
     }
+    // 기존 채팅 내역
     const chats = await Chat.find({ room: room._id }).sort("createdAt");
     return res.render("chat", {
       room,
