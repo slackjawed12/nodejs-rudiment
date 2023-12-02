@@ -9,6 +9,7 @@ const {
   removeRoom,
   createRoom,
   sendChat,
+  sendGif,
 } = require("../controllers");
 const router = express.Router();
 
