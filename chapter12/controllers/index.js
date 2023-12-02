@@ -89,6 +89,23 @@ exports.sendChat = async (req, res, next) => {
       user: req.session.color,
       chat: req.body.chat,
     });
+
+    // 같은 방에 있는 소켓들에 데이터 전송
+    req.app.get("io").of("/chat").to(req.params.id).emit("chat", chat);
+    res.send("ok");
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+exports.sendGif = async (req, res, next) => {
+  try {
+    const chat = await Chat.create({
+      room: req.params.id,
+      user: req.session.color,
+      gif: req.file.filename,
+    });
     req.app.get("io").of("/chat").to(req.params.id).emit("chat", chat);
     res.send("ok");
   } catch (error) {
