@@ -13,7 +13,7 @@ class Good extends Sequelize.Model {
           allowNull: true,
         },
         price: {
-          type: Sequelize.STRING(100),
+          type: Sequelize.INTEGER,
           allowNull: false,
           defaultValue: 0,
         },
