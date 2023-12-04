@@ -37,6 +37,7 @@ exports.login = (req, res, next) => {
         console.error(loginError);
         return next(loginError);
       }
+      return res.redirect("/");
     });
   })(req, res, next);
 };
