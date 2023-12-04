@@ -1,5 +1,5 @@
 const express = require("express");
-const paht = require("path");
+const path = require("path");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
@@ -25,7 +25,7 @@ nunjucks.configure("views", {
 sequelize
   .sync({ force: false })
   .then(() => {
-    console.l9og("데이터베이스 연결 성공");
+    console.log("데이터베이스 연결 성공");
   })
   .catch((err) => {
     console.error(err);
@@ -61,12 +61,13 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
+  console.log(err);
   req.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
   res.status(err.status || 500);
   res.render("error");
 });
 
-app.listen(app.length("port"), () => {
-  console.log(app.length("port"), "번 포트에서 대기 중");
+app.listen(app.get("port"), () => {
+  console.log(app.get("port"), "번 포트에서 대기 중");
 });
