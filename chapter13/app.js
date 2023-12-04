@@ -12,6 +12,8 @@ const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
 const { sequelize } = require("./models");
 const passportConfig = require("./passport");
+const sse = require("./sse");
+const webSocket = require("./socket");
 
 const app = express();
 passportConfig();
@@ -61,13 +63,15 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  console.log(err);
   req.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
   res.status(err.status || 500);
   res.render("error");
 });
 
-app.listen(app.get("port"), () => {
+const server = app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트에서 대기 중");
 });
+
+webSocket(server, app);
+sse(server);
