@@ -1,5 +1,7 @@
 const { Op } = require("sequelize");
-const { Good, Auction, User } = require("../models");
+const { Good, Auction, User, sequelize } = require("../models");
+const schedule = require("node-schedule");
+
 exports.renderMain = async (req, res, next) => {
   try {
     const yesterday = new Date();
@@ -36,12 +38,40 @@ exports.renderGood = (req, res) => {
 exports.createGood = async (req, res, next) => {
   try {
     const { name, price } = req.body;
-    await Good.create({
+    const good = await Good.create({
       OwnerId: req.user.id,
       name,
       img: req.file.filename,
       price,
     });
+    const end = new Date();
+    end.setDate(end.getDate() + 1);
+    // 첫번째 인수 : 실행될 시각, 두 번째 인수 : 콜백
+    const job = schedule.scheduleJob(end, async () => {
+      const success = await Auction.findOne({
+        where: {
+          GoodId: good.id,
+          order: [["bid", "DESC"]],
+        },
+      });
+      await good.setSold(success.UserId);
+      // 낙찰자의 보유 자산을 뺀다.
+      await User.update(
+        {
+          money: sequelize.literal(`money - ${success.bid}`),
+        },
+        {
+          where: { id: success.UserId },
+        }
+      );
+    });
+    job.on("error", (err) => {
+      console.error("스케줄링 에러", err);
+    });
+    job.on("success", () => {
+      console.log("스케줄링 성공");
+    });
+
     res.redirect("/");
   } catch (error) {
     console.error(error);
