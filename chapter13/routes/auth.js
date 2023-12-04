@@ -1,5 +1,4 @@
 const express = require("express");
-
 const { isLoggedIn, isNotLoggedIn } = require("../middlewares");
 const { join, login, logout } = require("../controllers/auth");
 
