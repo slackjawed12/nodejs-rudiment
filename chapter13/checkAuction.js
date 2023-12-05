@@ -15,23 +15,10 @@ module.exports = async () => {
         SoldId: null,
         createdAt: { [Op.lte]: yesterday },
       },
+      transaction: t,
     });
     targets.forEach(async (good) => {
-      const success = await Auction.findOne({
-        where: {
-          GoodId: good.id,
-          order: [["bid", "DESC"]],
-        },
-      });
-      await good.setSold(success.UserId);
-      await User.update(
-        {
-          money: sequelize.literal(`money - ${success.bid}`),
-        },
-        {
-          where: { id: success.UserId },
-        }
-      );
+      await processSold(good);
     });
 
     // 24시간이 지나지 않고 낙찰자가 없는 경매물품들
@@ -47,19 +34,7 @@ module.exports = async () => {
       const end = new Date(good.createdAt);
       end.setDate(end.getDate() + 1);
       const job = scheduleJob(end, async () => {
-        const success = await Auction.findOne({
-          where: { GoodId: good.id },
-          order: [["bid", "DESC"]],
-        });
-        await good.setSold(success.UserId);
-        await User.update(
-          {
-            money: sequelize.literal(`money = ${success.bid}`),
-          },
-          {
-            where: { id: success.UserId },
-          }
-        );
+        await processSold(good);
       });
       job.on("error", (err) => {
         console.error("스케줄링 에러", err);
@@ -70,5 +45,31 @@ module.exports = async () => {
     });
   } catch (err) {
     console.error(err);
+  }
+};
+
+const processSold = async (good) => {
+  try {
+    const t = sequelize.transaction();
+    const success = await Auction.findOne({
+      where: {
+        GoodId: good.id,
+        order: [["bid", "DESC"]],
+      },
+      transaction: t,
+    });
+    await good.setSold(success.UserId, { transaction: t });
+    await User.update(
+      {
+        money: sequelize.literal(`money - ${success.bid}`),
+      },
+      {
+        where: { id: success.UserId },
+        transaction: t,
+      }
+    );
+    await t.commit();
+  } catch (err) {
+    await t.rollback();
   }
 };
