@@ -49,8 +49,8 @@ module.exports = async () => {
 };
 
 const processSold = async (good) => {
+  const t = sequelize.transaction();
   try {
-    const t = sequelize.transaction();
     const success = await Auction.findOne({
       where: {
         GoodId: good.id,
