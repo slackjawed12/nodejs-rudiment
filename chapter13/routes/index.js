@@ -10,6 +10,7 @@ const {
   createGood,
   renderAuction,
   bid,
+  renderList,
 } = require("../controllers");
 
 const router = express.Router();
@@ -50,4 +51,6 @@ const upload = multer({
 });
 
 router.post("/good", isLoggedIn, upload.single("img"), createGood);
+
+router.get("/list", isLoggedIn, renderList);
 module.exports = router;
