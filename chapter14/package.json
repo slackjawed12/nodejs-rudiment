@@ -4,5 +4,8 @@
   "description": "nodejs cli program",
   "main": "index.js",
   "author": "slackjawed12",
-  "license": "ISC"
+  "license": "ISC",
+  "bin": {
+    "cli": "./index.js"
+  }
 }
