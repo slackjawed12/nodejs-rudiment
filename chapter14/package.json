@@ -6,6 +6,7 @@
   "author": "slackjawed12",
   "license": "ISC",
   "bin": {
-    "cli": "./index.js"
+    "cli": "./index.js",
+    "template": "./htmlTemplate.js"
   }
 }
