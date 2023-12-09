@@ -7,6 +7,6 @@
   "license": "ISC",
   "bin": {
     "cli": "./index.js",
-    "template": "./htmlTemplate.js"
+    "template": "./template.js"
   }
 }
