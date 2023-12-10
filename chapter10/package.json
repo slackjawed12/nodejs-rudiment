@@ -4,7 +4,8 @@
   "description": "노드버드 API 프로젝트",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server",
+    "start": "cross-env NODE_ENV=production PORT=80 pm2 start server.js",
+    "dev": "nodemon server",
     "test": "jest --watchAll --detectOpenHandles",
     "coverage": "jest --coverage"
   },
@@ -14,6 +15,8 @@
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "csurf": "^1.11.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-rate-limit": "^7.1.4",
@@ -25,6 +28,8 @@
     "passport": "^0.6.0",
     "passport-kakao": "^1.0.1",
     "passport-local": "^1.0.0",
+    "pm2": "^5.3.0",
+    "sanitize-html": "^2.11.0",
     "sequelize": "^6.33.0",
     "sequelize-cli": "^6.6.1",
     "ts-node": "^10.9.1",
