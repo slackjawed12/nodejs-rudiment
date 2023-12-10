@@ -4,7 +4,7 @@
   "description": "노드버드 API 프로젝트",
   "main": "server.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production PORT=80 pm2 start server.js",
+    "start": "cross-env NODE_ENV=production PORT=80 pm2 start server.js -i 0",
     "dev": "nodemon server",
     "test": "jest --watchAll --detectOpenHandles",
     "coverage": "jest --coverage"
