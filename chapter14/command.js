@@ -2,7 +2,7 @@
 const { program } = require("commander");
 const fs = require("fs");
 const path = require("path");
-
+const inquirer = require("inquirer");
 const htmlTemplate = `<!DOCTYPE html>
 <html>
   <head>
@@ -96,9 +96,49 @@ program
     makeTemplate(type, options.filename, options.directory);
   });
 
-program.command("*", { hidden: true }).action(() => {
-  console.log("해당 명령어를 찾을 수 없습니다.");
-  program.help();
-});
-
-program.parse(process.argv);
+// npx cli 만 입력되었을 때 대화형 cli를 띄운다.
+program
+  .action((options, command) => {
+    // command args는 명령어 뒤에 붙은 추가 명령어가 들어간다.
+    // npx cli template 이었다면 위의 command에서 처리됐을 것
+    // 그 외의 경우에는 유효하지 않은 입력이므로 예외처리
+    if (command.args.length !== 0) {
+      console.log("해당 명령어를 찾을 수 없습니다.");
+      program.help();
+    } else {
+      inquirer
+        .prompt([
+          {
+            type: "list",
+            name: "type",
+            message: "템플릿 종류를 선택하세요",
+            choices: ["html", "express-router"],
+          },
+          {
+            type: "input",
+            name: "name",
+            message: "파일의 이름을 입력하세요",
+            default: "index",
+          },
+          {
+            type: "input",
+            name: "directory",
+            message: "파일이 위치할 폴더의 경로를 입력하세요",
+            default: ".",
+          },
+          {
+            type: "confirm",
+            name: "confirm",
+            message: "생성하시겠습니까?",
+          },
+        ])
+        .then((answer) => {
+          // promise에서 받는 answer 객체는 질문의 name속성값을 키로, 사용자 입력을 값으로 갖는다.
+          if (answer.confirm) {
+            makeTemplate(answer.type, answer.name, answer.directory);
+            console.log("터미널을 종료합니다.");
+          }
+        });
+    }
+  })
+  .parse(process.argv);
