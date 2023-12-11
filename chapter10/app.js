@@ -12,6 +12,7 @@ const v1 = require("./routes/v1.js");
 const v2 = require("./routes/v2.js");
 const db = require("./models/index.js");
 const { passportConfig } = require("./passport/index.js");
+const logger = require("./logger.js");
 
 dotenv.config();
 const app = express();
@@ -69,6 +70,8 @@ app.use("/", indexRouter);
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
   error.status = 404;
+  logger.info("hello");
+  logger.error(error.message);
   next(error);
 });
 
