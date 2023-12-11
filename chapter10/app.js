@@ -13,6 +13,8 @@ const v2 = require("./routes/v2.js");
 const db = require("./models/index.js");
 const { passportConfig } = require("./passport/index.js");
 const logger = require("./logger.js");
+const helmet = require("helmet");
+const hpp = require("hpp");
 
 dotenv.config();
 const app = express();
@@ -35,8 +37,16 @@ db.sequelize
 
 if (process.env.NODE_ENV === "production") {
   app.use(morgan("combined"));
+  app.use(
+    helmet({
+      contentSecurityPolicy: false,
+      crossOriginEmbedderPolicy: false,
+      crossOriginResourcePolicy: false,
+    })
+  );
 } else {
   app.use(morgan("dev"));
+  app.use(hpp());
 }
 
 app.use(express.static(path.join(__dirname, "public")));
