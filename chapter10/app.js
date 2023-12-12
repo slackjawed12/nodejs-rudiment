@@ -15,7 +15,8 @@ const { passportConfig } = require("./passport/index.js");
 const logger = require("./logger.js");
 const helmet = require("helmet");
 const hpp = require("hpp");
-
+const redis = require("redis");
+const RedisStore = require("connect-redis")(session);
 dotenv.config();
 const app = express();
 passportConfig();
@@ -49,6 +50,12 @@ if (process.env.NODE_ENV === "production") {
   app.use(hpp());
 }
 
+const redisClient = redis.createClient({
+  url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
+  password: process.env.REDIS_PASSWORD,
+  legacyMode: true,
+});
+
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -61,6 +68,8 @@ const sessionOption = {
     httpOnly: true,
     secure: false,
   },
+  // redis store에 세션을 저장
+  store: new RedisStore({ client: redisClient }),
 };
 
 if (process.env.NODE_ENV === "production") {
