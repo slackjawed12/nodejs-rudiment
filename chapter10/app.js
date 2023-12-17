@@ -16,7 +16,8 @@ const logger = require("./logger.js");
 const helmet = require("helmet");
 const hpp = require("hpp");
 const redis = require("redis");
-const RedisStore = require("connect-redis")(session);
+const RedisStore = require("connect-redis").default;
+
 dotenv.config();
 const app = express();
 passportConfig();
@@ -56,6 +57,7 @@ const redisClient = redis.createClient({
   legacyMode: true,
 });
 
+redisClient.connect().catch(console.error);
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

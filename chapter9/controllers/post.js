@@ -2,7 +2,8 @@ import db from "../models/index.js";
 const { Post, Hashtag } = db;
 export const afterUploadImage = (req, res) => {
   console.log(req.file);
-  res.json({ url: `/img/${req.file.filename}` });
+  // res.json({ url: `/img/${req.file.filename}` });
+  res.json({ url: req.file.location });
 };
 
 export const uploadPost = async (req, res, next) => {
