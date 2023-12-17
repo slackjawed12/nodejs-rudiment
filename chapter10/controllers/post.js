@@ -1,4 +1,4 @@
-import db from "../models/index.js";
+const db = require("../models/index");
 const { Post, Hashtag } = db;
 export const afterUploadImage = (req, res) => {
   console.log(req.file);
