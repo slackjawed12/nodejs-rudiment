@@ -12,6 +12,7 @@
   "author": "slackjawed12",
   "license": "MIT",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.474.0",
     "bcrypt": "^5.1.1",
     "connect-redis": "^7.1.0",
     "cookie-parser": "^1.4.6",
@@ -26,6 +27,7 @@
     "hpp": "^0.2.3",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
+    "multer-s3": "^3.0.1",
     "mysql2": "^3.6.2",
     "nunjucks": "^3.2.4",
     "passport": "^0.6.0",
