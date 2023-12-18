@@ -3,7 +3,9 @@ const { Post, Hashtag } = db;
 export const afterUploadImage = (req, res) => {
   console.log(req.file);
   // res.json({ url: `/img/${req.file.filename}` });
-  res.json({ url: req.file.location });
+  const originalUrl = req.file.location;
+  const url = originalUrl.replace(/\/original\//, "/thumb/");
+  res.json({ url, originalUrl });
 };
 
 export const uploadPost = async (req, res, next) => {
