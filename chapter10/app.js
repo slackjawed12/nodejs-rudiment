@@ -8,6 +8,7 @@ const nunjucks = require("nunjucks");
 const dotenv = require("dotenv");
 const authRouter = require("./routes/auth.js");
 const indexRouter = require("./routes/index.js");
+const pageRouter = require("./routes/page.js");
 const v1 = require("./routes/v1.js");
 const v2 = require("./routes/v2.js");
 const db = require("./models/index.js");
@@ -86,12 +87,11 @@ app.use(passport.session());
 app.use("/v1", v1);
 app.use("/v2", v2);
 app.use("/auth", authRouter);
-app.use("/", indexRouter);
+app.use("/", pageRouter);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
   error.status = 404;
-  logger.info("hello");
   logger.error(error.message);
   next(error);
 });
