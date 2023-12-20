@@ -7,6 +7,7 @@ const { isLoggedIn } = require("../middlewares/index.js");
 const router = express.Router();
 const { S3Client } = require("@aws-sdk/client-s3");
 const multerS3 = require("multer-s3");
+const multerGoogleStorage = require("multer-google-storage");
 
 try {
   fs.readdirSync("uploads");
@@ -15,24 +16,24 @@ try {
   fs.mkdirSync("uploads");
 }
 
-const s3 = new S3Client({
-  credentials: {
-    accessKeyId: process.env.S3_ACCESS_KEY_ID,
-    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-  },
-  region: "ap-northeast-2",
-});
+// const s3 = new S3Client({
+//   credentials: {
+//     accessKeyId: process.env.S3_ACCESS_KEY_ID,
+//     secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+//   },
+//   region: "ap-northeast-2",
+// });
 
-const uploadV2 = multer({
-  storage: multerS3({
-    s3,
-    bucket: "slackjawed-node-practice-bucket",
-    key(req, file, cb) {
-      cb(null, `original/${Date.now()}_${file.originalname}`);
-    },
-  }),
-  limits: { fileSize: 5 * 1024 * 1024 },
-});
+// const uploadV2 = multer({
+//   storage: multerS3({
+//     s3,
+//     bucket: "slackjawed-node-practice-bucket",
+//     key(req, file, cb) {
+//       cb(null, `original/${Date.now()}_${file.originalname}`);
+//     },
+//   }),
+//   limits: { fileSize: 5 * 1024 * 1024 },
+// });
 
 // const upload = multer({
 //   storage: multer.diskStorage({
@@ -49,6 +50,18 @@ const uploadV2 = multer({
 //   }),
 //   limits: { fileSize: 5 * 1024 * 1024 },
 // });
+
+const upload = multer({
+  storage: multerGoogleStorage.storageEngine({
+    bucket: process.env.GOOGLE_CLOUD_BUCKET_NAME,
+    projectId: process.env.GOOGLE_PROJECT_NAME,
+    keyFilename: process.env.GOOGLE_KEY_FILE_NAME,
+    filename: (req, file, cb) => {
+      cb(null, `original/${Date.now()}_${file.originalname}}`);
+    },
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 },
+});
 
 router.post("/img", isLoggedIn, upload.single("img"), afterUploadImage);
 
