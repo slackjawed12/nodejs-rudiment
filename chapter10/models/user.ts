@@ -3,6 +3,7 @@ import Sequelize, {
   CreationOptional,
   InferAttributes,
   InferCreationAttributes,
+  BelongsToManyAddAssociationMixin,
 } from "sequelize";
 import Post from "./post";
 import Domain from "./domain";
@@ -18,6 +19,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare updatedAt: CreationOptional<Date>;
   declare deletedAt: CreationOptional<Date>;
 
+  declare addFollowing: BelongsToManyAddAssociationMixin<User, number>;
   static initiate(sequelize: Sequelize.Sequelize) {
     User.init(
       {
