@@ -7,7 +7,7 @@ import session from "express-session";
 import nunjucks from "nunjucks";
 import dotenv from "dotenv";
 import authRouter from "./routes/auth";
-import postRouter from "./routes/post.js";
+import postRouter from "./routes/post";
 import userRouter from "./routes/user.js";
 import pageRouter from "./routes/page.js";
 import v1 from "./routes/v1.js";

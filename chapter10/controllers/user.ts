@@ -35,8 +35,8 @@ const deleteFollow: RequestHandler = async (req, res, next) => {
       },
     });
     if (user) {
-      const follow = user.Followers.find((v) => v.id === req.user?.id);
-      await follow.Follow.destroy();
+      const follow = user.Followers?.find((v) => v.id === req.user?.id);
+      await follow?.Follow?.destroy();
       res.send("success");
     } else {
       res.status(404).send("no user");
