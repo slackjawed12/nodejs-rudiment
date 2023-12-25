@@ -1,4 +1,4 @@
-import express, { json, urlencoded } from "express";
+import express, { ErrorRequestHandler, json, urlencoded } from "express";
 import { join } from "path";
 import cookieParser from "cookie-parser";
 import { initialize, session as _session } from "passport";
@@ -100,11 +100,12 @@ app.use((req, res, next) => {
   next(error);
 });
 
-app.use((err, req, res, next) => {
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
   res.status(err.status || 500);
   res.render("error");
-});
+};
 
+app.use(errorHandler);
 export default app;
