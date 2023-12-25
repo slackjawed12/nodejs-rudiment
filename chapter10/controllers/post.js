@@ -3,8 +3,12 @@ const { Post, Hashtag } = db;
 export const afterUploadImage = (req, res) => {
   console.log(req.file);
   // res.json({ url: `/img/${req.file.filename}` });
-  const originalUrl = req.file.location;
+  // const originalUrl = req.file.location;
+  // const url = originalUrl.replace(/\/original\//, "/thumb/");
+  const filePath = req.file.path.split("/").splice(0, 3).join("/");
+  const originalUrl = `${filePath}/${req.file.filename}`;
   const url = originalUrl.replace(/\/original\//, "/thumb/");
+
   res.json({ url, originalUrl });
 };
 
