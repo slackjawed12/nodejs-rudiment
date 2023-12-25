@@ -1,23 +1,24 @@
-const express = require("express");
-const path = require("path");
-const cookieParser = require("cookie-parser");
-const passport = require("passport");
-const morgan = require("morgan");
-const session = require("express-session");
-const nunjucks = require("nunjucks");
-const dotenv = require("dotenv");
-const authRouter = require("./routes/auth.js");
-const indexRouter = require("./routes/index.js");
-const pageRouter = require("./routes/page.js");
-const v1 = require("./routes/v1.js");
-const v2 = require("./routes/v2.js");
-const db = require("./models/index.js");
-const { passportConfig } = require("./passport/index.js");
-const logger = require("./logger.js");
-const helmet = require("helmet");
-const hpp = require("hpp");
-const redis = require("redis");
-const RedisStore = require("connect-redis").default;
+import express, { json, urlencoded } from "express";
+import { join } from "path";
+import cookieParser from "cookie-parser";
+import { initialize, session as _session } from "passport";
+import morgan from "morgan";
+import session from "express-session";
+import nunjucks from "nunjucks";
+import dotenv from "dotenv";
+import authRouter from "./routes/auth.js";
+import postRouter from "./routes/post.js";
+import userRouter from "./routes/user.js";
+import pageRouter from "./routes/page.js";
+import v1 from "./routes/v1.js";
+import v2 from "./routes/v2.js";
+import { sequelize } from "./models/index.js";
+import { passportConfig } from "./passport/index.js";
+import { error as _error } from "./logger.js";
+import helmet from "helmet";
+import hpp from "hpp";
+import { createClient } from "redis";
+import RedisStore from "connect-redis";
 
 dotenv.config();
 const app = express();
@@ -29,7 +30,7 @@ nunjucks.configure("views", {
   watch: true,
 });
 
-db.sequelize
+sequelize
   .sync({ force: false })
   .then(() => {
     console.log("데이터베이스 연결 성공");
@@ -52,27 +53,28 @@ if (process.env.NODE_ENV === "production") {
   app.use(hpp());
 }
 
-const redisClient = redis.createClient({
+const redisClient = createClient({
   url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
   password: process.env.REDIS_PASSWORD,
   legacyMode: true,
 });
 
 redisClient.connect().catch(console.error);
-app.use(express.static(path.join(__dirname, "public")));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.static(join(__dirname, "public")));
+app.use(json());
+app.use(urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 const sessionOption = {
   resave: false,
   saveUninitialized: false,
-  secret: process.env.COOKIE_SECRET,
+  secret: process.env.COOKIE_SECRET!,
   cookie: {
     httpOnly: true,
     secure: false,
   },
   // redis store에 세션을 저장
   store: new RedisStore({ client: redisClient }),
+  proxy: false,
 };
 
 if (process.env.NODE_ENV === "production") {
@@ -81,18 +83,20 @@ if (process.env.NODE_ENV === "production") {
 
 app.use(session(sessionOption));
 
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(initialize());
+app.use(_session());
 
 app.use("/v1", v1);
 app.use("/v2", v2);
 app.use("/auth", authRouter);
+app.use("/post", postRouter);
+app.use("/user", userRouter);
 app.use("/", pageRouter);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
   error.status = 404;
-  logger.error(error.message);
+  _error(error.message);
   next(error);
 });
 
@@ -103,4 +107,4 @@ app.use((err, req, res, next) => {
   res.render("error");
 });
 
-module.exports = app;
+export default app;
