@@ -15,6 +15,23 @@ type Type = {
   hello: string;
   func?: (param?: boolean) => void;
 };
+const c: Type = { hello: "type" };
+const c2: Type = {
+  hello: "type2",
+  func: () => {
+    console.log("hello");
+  },
+};
+const c3: Type = {
+  hello: "type3",
+  func: (param) => {
+    if (param) {
+      console.log("true");
+    } else {
+      console.log("false");
+    }
+  },
+};
 
 interface Merge {
   x: number;
