@@ -5,3 +5,4 @@ function add(x, y) {
   return x + y;
 }
 const minus = (x, y) => x - y;
+export default {};
