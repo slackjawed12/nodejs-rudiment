@@ -54,4 +54,4 @@ const logout: RequestHandler = (req, res) => {
   });
 };
 
-module.exports = { join, login, logout };
+export { join, login, logout };

@@ -1,14 +1,11 @@
-const express = require("express");
-const multer = require("multer");
-const path = require("path");
-const fs = require("fs");
-const { afterUploadImage, uploadPost } = require("../controllers/post.js");
-const { isLoggedIn } = require("../middlewares/index.js");
-const router = express.Router();
-const { S3Client } = require("@aws-sdk/client-s3");
-const multerS3 = require("multer-s3");
-const multerGoogleStorage = require("multer-google-storage");
+import express from "express";
+import multer, { DiskStorageOptions } from "multer";
+import fs from "fs";
+import { afterUploadImage, uploadPost } from "../controllers/post";
+import { isLoggedIn } from "../middlewares/index.js";
+import multerGoogleStorage, { storageEngine } from "multer-google-storage";
 
+const router = express.Router();
 try {
   fs.readdirSync("uploads");
 } catch (error) {
@@ -52,11 +49,11 @@ try {
 // });
 
 const upload = multer({
-  storage: multerGoogleStorage.storageEngine({
+  storage: storageEngine({
     bucket: process.env.GOOGLE_CLOUD_BUCKET_NAME,
     projectId: process.env.GOOGLE_PROJECT_NAME,
     keyFilename: process.env.GOOGLE_KEY_FILE_NAME,
-    filename: (req, file, cb) => {
+    filename: (req: any, file: any, cb: any) => {
       cb(null, `original/${Date.now()}_${file.originalname}}`);
     },
   }),

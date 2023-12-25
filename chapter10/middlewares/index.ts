@@ -1,10 +1,9 @@
-import { NextFunction, RequestHandler, Request, Response } from "express";
+import { RequestHandler, Request, Response } from "express";
+import jwt from "jsonwebtoken";
+import rateLimit from "express-rate-limit";
+import cors from "cors";
+import Domain from "../models/domain";
 
-const jwt = require("jsonwebtoken");
-const rateLimit = require("express-rate-limit");
-const cors = require("cors");
-const db = require("../models/index.js");
-const { Domain } = db;
 /**
  * 라우터 접근 권한 제어 : 로그인한 상태만 필터링하는 미들웨어
  */
@@ -28,8 +27,8 @@ const isNotLoggedIn: RequestHandler = (req, res, next) => {
 const verifyToken: RequestHandler = (req, res, next) => {
   try {
     res.locals.decoded = jwt.verify(
-      req.headers.authorization,
-      process.env.JWT_SECRET
+      req.headers.authorization ?? "",
+      process.env.JWT_SECRET ?? ""
     );
     return next();
   } catch (error) {
@@ -50,7 +49,7 @@ const apiLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 10,
   handler(req: Request, res: Response) {
-    res.status(this.statusCode).json({
+    res.status(this.statusCode!).json({
       code: this.statusCode,
       message: "1분에 한 번만 요청할 수 있습니다.",
     });

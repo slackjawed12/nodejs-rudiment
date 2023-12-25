@@ -6,14 +6,14 @@ import morgan from "morgan";
 import session from "express-session";
 import nunjucks from "nunjucks";
 import dotenv from "dotenv";
-import authRouter from "./routes/auth.js";
+import authRouter from "./routes/auth";
 import postRouter from "./routes/post.js";
 import userRouter from "./routes/user.js";
 import pageRouter from "./routes/page.js";
 import v1 from "./routes/v1.js";
 import v2 from "./routes/v2.js";
-import { sequelize } from "./models/index.js";
-import passportConfig from "./passport/index.js";
+import { sequelize } from "./models/index";
+import passportConfig from "./passport/index";
 import { error as _error } from "./logger.js";
 import helmet from "helmet";
 import hpp from "hpp";
@@ -94,8 +94,11 @@ app.use("/user", userRouter);
 app.use("/", pageRouter);
 
 app.use((req, res, next) => {
-  const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
+  const error = new Error(
+    `${req.method} ${req.url} 라우터가 없습니다.`
+  ) as Error & { status?: number };
   error.status = 404;
+
   _error(error.message);
   next(error);
 });
