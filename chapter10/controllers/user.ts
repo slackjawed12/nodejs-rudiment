@@ -1,11 +1,11 @@
-const db = require("../models/index.js");
-const { User } = db;
+import { RequestHandler } from "express";
+import User from "../models/user";
 
-const follow = async (req, res, next) => {
+const follow: RequestHandler = async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: {
-        id: req.user.id,
+        id: req.user?.id,
       },
     });
     if (user) {
@@ -20,7 +20,7 @@ const follow = async (req, res, next) => {
   }
 };
 
-const deleteFollow = async (req, res, next) => {
+const deleteFollow: RequestHandler = async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: {
@@ -30,12 +30,12 @@ const deleteFollow = async (req, res, next) => {
         model: User,
         as: "Followers",
         where: {
-          id: req.user.id,
+          id: req.user?.id,
         },
       },
     });
     if (user) {
-      const follow = user.Followers.find((v) => v.id === req.user.id);
+      const follow = user.Followers.find((v) => v.id === req.user?.id);
       await follow.Follow.destroy();
       res.send("success");
     } else {
@@ -47,4 +47,4 @@ const deleteFollow = async (req, res, next) => {
   }
 };
 
-module.exports = { follow, deleteFollow };
+export { follow, deleteFollow };

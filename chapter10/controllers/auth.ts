@@ -1,9 +1,10 @@
-const bcrypt = require("bcrypt");
-const passport = require("passport");
-const db = require("../models/index.js");
-const { User } = db;
+import { RequestHandler } from "express";
 
-const join = async (req, res, next) => {
+import bcrypt from "bcrypt";
+import passport from "passport";
+import User from "../models/user";
+
+const join: RequestHandler = async (req, res, next) => {
   const { email, nick, password } = req.body;
   try {
     const exUser = await User.findOne({ where: { email } });
@@ -25,9 +26,9 @@ const join = async (req, res, next) => {
 
 // passport는 req 객체에 login, logout 메서드를 추가한다.
 // req.login : passport.serializeUser 호출
-const login = (req, res, next) => {
+const login: RequestHandler = (req, res, next) => {
   // local 로그인 전략 수행 - 중첩 미들웨어
-  passport.authenticate("local", (authError, user, info) => {
+  passport.authenticate("local", (authError: any, user: any, info: any) => {
     if (authError) {
       console.error(authError);
       return next(authError);
@@ -47,7 +48,7 @@ const login = (req, res, next) => {
 };
 
 // req.logout : req.user, req.session 객체 제거 + 제거 이후 콜백 실행
-const logout = (req, res) => {
+const logout: RequestHandler = (req, res) => {
   req.logout(() => {
     res.redirect("/");
   });

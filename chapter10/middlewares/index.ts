@@ -1,3 +1,5 @@
+import { NextFunction, RequestHandler, Request, Response } from "express";
+
 const jwt = require("jsonwebtoken");
 const rateLimit = require("express-rate-limit");
 const cors = require("cors");
@@ -6,7 +8,7 @@ const { Domain } = db;
 /**
  * 라우터 접근 권한 제어 : 로그인한 상태만 필터링하는 미들웨어
  */
-const isLoggedIn = (req, res, next) => {
+const isLoggedIn: RequestHandler = (req, res, next) => {
   if (req.isAuthenticated()) {
     next();
   } else {
@@ -14,7 +16,7 @@ const isLoggedIn = (req, res, next) => {
   }
 };
 
-const isNotLoggedIn = (req, res, next) => {
+const isNotLoggedIn: RequestHandler = (req, res, next) => {
   if (!req.isAuthenticated()) {
     next();
   } else {
@@ -23,7 +25,7 @@ const isNotLoggedIn = (req, res, next) => {
   }
 };
 
-const verifyToken = (req, res, next) => {
+const verifyToken: RequestHandler = (req, res, next) => {
   try {
     res.locals.decoded = jwt.verify(
       req.headers.authorization,
@@ -31,7 +33,7 @@ const verifyToken = (req, res, next) => {
     );
     return next();
   } catch (error) {
-    if (error.name === "TokenExpiredError") {
+    if (error instanceof Error && error.name === "TokenExpiredError") {
       return res.status(419).json({
         code: 419,
         message: "토큰이 만료되었습니다.",
@@ -47,7 +49,7 @@ const verifyToken = (req, res, next) => {
 const apiLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 10,
-  handler(req, res) {
+  handler(req: Request, res: Response) {
     res.status(this.statusCode).json({
       code: this.statusCode,
       message: "1분에 한 번만 요청할 수 있습니다.",
@@ -55,7 +57,7 @@ const apiLimiter = rateLimit({
   },
 });
 
-const deprecated = (req, res) => {
+const deprecated = (req: Request, res: Response) => {
   res.status(410).json({
     code: 410,
     message: "새로운 버전이 나왔습니다. 새로운 버전을 사용하세요.",
@@ -67,10 +69,10 @@ const deprecated = (req, res) => {
  * - 클라이언트 비밀키를 통해 다른 도메인이 api 서버에 요청을 보낼 수 있다.
  * - 발급 시 허용한 도메인이 db에 저장되어 있으므로, host 헤더와 비밀키가 모두 일치한 경우에만 cors 허용하도록 수정
  */
-const corsWhenDomainMatches = async (req, res, next) => {
+const corsWhenDomainMatches: RequestHandler = async (req, res, next) => {
   const domain = await Domain.findOne({
     where: {
-      host: new URL(req.get("origin")).host,
+      host: new URL(req.get("origin")!).host,
     },
   });
   if (domain) {
@@ -83,7 +85,7 @@ const corsWhenDomainMatches = async (req, res, next) => {
   }
 };
 
-module.exports = {
+export {
   isLoggedIn,
   isNotLoggedIn,
   verifyToken,
