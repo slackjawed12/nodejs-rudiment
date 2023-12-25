@@ -1,4 +1,7 @@
-import fs from "fs";
-fs.readFile("package.json", (err, result) => {
-  console.log(result);
-});
+import fs from "fs/promises";
+
+fs.readFile("package.json")
+  .then((result) => {
+    console.log(result);
+  })
+  .catch(console.error);
