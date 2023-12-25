@@ -13,7 +13,7 @@ import pageRouter from "./routes/page.js";
 import v1 from "./routes/v1.js";
 import v2 from "./routes/v2.js";
 import { sequelize } from "./models/index.js";
-import { passportConfig } from "./passport/index.js";
+import passportConfig from "./passport/index.js";
 import { error as _error } from "./logger.js";
 import helmet from "helmet";
 import hpp from "hpp";

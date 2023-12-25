@@ -1,10 +1,9 @@
-const passport = require("passport");
-const local = require("./localStrategy.js");
-const kakao = require("./kakaoStrategy.js");
-const db = require("../models/index.js");
-const { User } = db;
+import passport from "passport";
+import local from "./localStrategy.js";
+import kakao from "./kakaoStrategy.js";
+import User from "../models/user.js";
 
-const passportConfig = () => {
+export default () => {
   // 로그인 시 실행된다. req.session 객체에 저장할 데이터를 결정
   // user id만 세션에 저장
   passport.serializeUser((user, done) => {
@@ -12,7 +11,7 @@ const passportConfig = () => {
   });
   // 매 요청마다 실행된다. passport.session 미들웨어가 호출
   // 첫번째 인수가 serializeUser가 저장했던 아이디
-  passport.deserializeUser((id, done) => {
+  passport.deserializeUser((id: number, done) => {
     User.findOne({
       where: { id },
       include: [
@@ -35,5 +34,3 @@ const passportConfig = () => {
   local();
   kakao();
 };
-
-module.exports = { passportConfig };

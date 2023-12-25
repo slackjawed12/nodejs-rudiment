@@ -1,20 +1,17 @@
-const passport = require("passport");
-const { Strategy } = require("passport-kakao");
-const db = require("../models/index.js");
-const dotenv = require("dotenv");
-const KakaoStrategy = Strategy;
-const { User } = db;
+import passport from "passport";
+import { Strategy as KakaoStrategy } from "passport-kakao";
+import dotenv from "dotenv";
+import User from "../models/user";
 
 dotenv.config();
-module.exports = () => {
+export default () => {
   passport.use(
     new KakaoStrategy(
       {
-        clientID: process.env.KAKAO_ID,
+        clientID: process.env.KAKAO_ID!,
         callbackURL: "/auth/kakao/callback",
       },
       async (accessToken, refreshToken, profile, done) => {
-        console.log("kakao profile", profile);
         try {
           const exUser = await User.findOne({
             where: {
